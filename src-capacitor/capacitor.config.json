@@ -1,0 +1,7 @@
+{
+  "appId": "com.danielknights.errorguesser",
+  "appName": "Error Guesser",
+  "bundledWebRuntime": false,
+  "npmClient": "yarn",
+  "webDir": "www"
+}

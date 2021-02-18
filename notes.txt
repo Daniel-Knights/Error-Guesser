@@ -1,0 +1,24 @@
+README contribution guide
+JSON file for errors
+
+Different difficulty levels
+    Type out full error + select line on hard difficulty 
+    Select text options + line on medium
+    Select line only on easy 
+
+Different languages
+    errors directory with different JSON file for each language
+
+Store stats in localStorage 
+Share stats social media links?
+
+10 questions per round 
+1 minute per question
+
+Round scoring
+    75-100% expert
+    50-75% strong
+    25-50% student
+    0-25% amateur
+
+User levels based on overall score

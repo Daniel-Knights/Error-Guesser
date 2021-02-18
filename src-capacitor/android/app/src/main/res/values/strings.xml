@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Error Guesser</string>
+    <string name="title_activity_main">Error Guesser</string>
+    <string name="package_name">com.danielknights.errorguesser</string>
+    <string name="custom_url_scheme">com.danielknights.errorguesser</string>
+</resources>

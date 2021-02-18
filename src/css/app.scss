@@ -1,0 +1,84 @@
+@import 'variables';
+@import 'utils';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+::selection {
+  color: var(--white);
+  background-color: var(--red);
+}
+
+body {
+  margin: 0;
+  font: 16px var(--font-primary);
+  color: var(--white);
+  text-shadow: 0 1px rgba(var(--black-rgb), 0.3);
+  background: linear-gradient(135deg, var(--orange), var(--rose));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1 {
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.2em;
+}
+
+p {
+  margin: 0 0 1em;
+}
+
+input,
+textarea {
+  margin: 5px;
+  padding: 5px 10px;
+  color: var(--red);
+  caret-color: var(--black);
+  font: 1.4em var(--font-secondary);
+  border: none;
+  border-radius: 2px;
+  outline: none;
+  transition: all 0.15s;
+
+  &:focus {
+    box-shadow: 0 0 0 6px rgba(var(--purple-rgb), 0.685);
+  }
+}
+
+input[type='number'] {
+  width: 100px;
+}
+
+textarea {
+  resize: none;
+}
+
+button {
+  cursor: pointer;
+  margin: 5px;
+  padding: 10px 15px;
+  letter-spacing: 1.5px;
+  font: 1.5em var(--font-primary);
+  background-color: var(--white);
+  border: none;
+  border-radius: 2px;
+  outline: none;
+  transition: all 0.15s;
+
+  &:hover {
+    background-color: var(--grey);
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 4px rgba(var(--purple-rgb), 0.685);
+  }
+}
+
+a {
+  color: var(--white);
+  text-decoration: none;
+}

@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Code+Pro&display=swap');
+
+@function hexToRGB($hex) {
+  @return red($hex), green($hex), blue($hex);
+}
+
+:root {
+  --font-primary: 'Bebas Neue', sans-serif;
+  --font-secondary: 'Source Code Pro', monospace;
+
+  --orange: #ffab63;
+  --rose: #ca5e70;
+  --red: #fc4343;
+  --purple: #8284eb;
+  --white: #fff;
+  --grey: #dbdbdb;
+  --dark-grey: #525252;
+  --black: #272822;
+
+  --orange-rgb: #{hexToRGB(#ffab63)};
+  --rose-rgb: #{hexToRGB(#ca5e70)};
+  --red-rgb: #{hexToRGB(#fc4343)};
+  --purple-rgb: #{hexToRGB(#8284eb)};
+  --white-rgb: #{hexToRGB(#fff)};
+  --grey-rgb: #{hexToRGB(#bbbbbb)};
+  --dark-grey-rgb: #{hexToRGB(#525252)};
+  --black-rgb: #{hexToRGB(#272822)};
+}

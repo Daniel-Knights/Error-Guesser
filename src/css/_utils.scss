@@ -1,0 +1,28 @@
+/* Prism overrides */
+#q-app {
+  pre *:not(code) {
+    pointer-events: none;
+  }
+
+  pre[class*='language-'].line-numbers {
+    user-select: none;
+    padding-left: 1em;
+  }
+
+  pre[class*='language-'].line-numbers > code {
+    cursor: pointer;
+    padding-left: 3em;
+
+    &:hover {
+      background-color: var(--dark-grey);
+    }
+  }
+
+  .token.operator {
+    background-color: transparent;
+  }
+
+  .line-numbers .line-numbers-rows {
+    left: -1em;
+  }
+}

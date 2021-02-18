@@ -1,0 +1,28 @@
+[
+  {
+    "snippet": [
+      "const array = []",
+      "\n",
+      "if (array[0]) {",
+      "  console.log('Hello there')",
+      "} else {",
+      "  console.log(array[0].hasElement)",
+      "}"
+    ],
+    "errorLine": 6,
+    "errorText": "Uncaught TypeError: Cannot read property 'hasElement' of undefined"
+  },
+  {
+    "snippet": [
+      "const array = []",
+      "\n",
+      "if (array[0].hasElement) {",
+      "  console.log('Hello')",
+      "} else {",
+      "  console.log(array[0].hasElement)",
+      "}"
+    ],
+    "errorLine": 0,
+    "error_text": "/Uncaught TypeError: /"
+  }
+]
