@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="150" height="150" src="/assets/images/error-guesser-logo.png">
+  <img width="150" height="150" src="/src/assets/images/error-guesser-logo.png">
 </p>
 
 # Error Guesser 💢❗
