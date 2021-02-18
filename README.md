@@ -6,4 +6,4 @@
 
 > _We all talk about error-handling, but can YOU handle your errors!?_
 
-**WORK IN PROGRESS...**
+**WORK IN PROGRESS...** 🛠👷
