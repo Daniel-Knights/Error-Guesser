@@ -1,7 +1,7 @@
 {
   "name": "error-guesser",
   "version": "0.0.1",
-  "description": "A game for putting your error-handling skills to the test",
+  "description": "A game for putting your debugging skills to the test",
   "author": "Daniel Knights <danknights95@gmail.com>",
   "private": true,
   "dependencies": {

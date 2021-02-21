@@ -122,7 +122,7 @@ module.exports = configure(function(ctx) {
       manifest: {
         name: 'Error Guesser',
         short_name: 'Error Guesser',
-        description: 'A game for putting your error-handling skills to the test',
+        description: 'A game for putting your debugging skills to the test',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',

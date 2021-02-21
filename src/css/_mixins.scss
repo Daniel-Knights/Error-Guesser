@@ -18,3 +18,12 @@
   }
   flex-direction: column;
 }
+
+@mixin selectedLine {
+  content: '>';
+  position: absolute;
+  left: -30px;
+  font-weight: 600;
+  font-family: monospace;
+  text-shadow: none;
+}

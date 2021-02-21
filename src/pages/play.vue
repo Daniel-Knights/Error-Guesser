@@ -3,7 +3,7 @@
     <pre class="line-numbers language-js" @click="selectLine($event)">
       <code
         v-for="(line, i) in errors[index].snippet"
-        :id="selectedLine === i ? 'selected-line' : ''"
+        :class="[ selectedLine === i ? 'selected-line': '', 'language-js' ]"
         :key="line"
         :data-line-number="i"
       >{{ line }}</code>
@@ -21,6 +21,7 @@
         <button>SKIP</button>
       </div>
     </div>
+    <Timer difficulty="hard" @time-up="submitGuess()" />
   </main>
 </template>
 
@@ -30,6 +31,7 @@ import Prism from '../assets/prism/prism'
 import '../assets/prism/prism.css'
 import type { Question } from './types'
 import errors from '../assets/errors/js.json'
+import Timer from '../components/Timer.vue'
 
 interface Data {
   errors: Question[]
@@ -38,7 +40,11 @@ interface Data {
 }
 
 export default defineComponent({
-  data: () => ({ index: 0, selectedLine: null, errors } as Data),
+  name: 'play',
+
+  components: { Timer },
+
+  data: () => ({ index: 0, selectedLine: 0, errors } as Data),
 
   mounted() {
     setTimeout(Prism.highlightAll)
@@ -50,7 +56,7 @@ export default defineComponent({
   },
 
   methods: {
-    selectLine(e: MouseEvent) {
+    selectLine(e: MouseEvent): void {
       const target = e.target as HTMLElement
       if (target.localName !== 'code') return
 
@@ -58,6 +64,9 @@ export default defineComponent({
       if (!lineNumber) return
 
       this.selectedLine = +lineNumber
+    },
+    submitGuess(): void {
+      console.log('lahayam!')
     }
   }
 })
@@ -81,8 +90,12 @@ label {
 pre {
   @include flex-y(false, false);
 
-  #selected-line {
+  .selected-line {
     background-color: var(--dark-grey);
+
+    &::before {
+      @include selectedLine;
+    }
   }
 }
 
