@@ -1,24 +1,27 @@
-import { route } from 'quasar/wrappers'
-import VueRouter from 'vue-router'
+/* eslint-disable */
+import {
+  createRouter,
+  createMemoryHistory,
+  createWebHistory,
+  createWebHashHistory
+} from 'vue-router'
 import routes from './routes'
 
-/*
- * If not building with SSR mode, you can
- * directly export the Router instantiation
- */
+export default function (/* { store, ssrContext } */) {
+  const createHistory = process.env.SERVER
+    ? createMemoryHistory
+    : process.env.VUE_ROUTER_MODE === 'history'
+    ? createWebHistory
+    : createWebHashHistory
 
-export default route(function({ Vue }) {
-  Vue.use(VueRouter)
-
-  const Router = new VueRouter({
-    scrollBehavior: (): {
-      x: number
-      y: number
-    } => ({ x: 0, y: 0 }),
+  const Router = createRouter({
+    scrollBehavior: () => ({ left: 0, top: 0 }),
     routes,
-    mode: process.env.VUE_ROUTER_MODE,
-    base: process.env.VUE_ROUTER_BASE
+
+    history: createHistory(
+      process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE
+    )
   })
 
   return Router
-})
+}

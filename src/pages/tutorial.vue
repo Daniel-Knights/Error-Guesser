@@ -3,10 +3,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 
-export default Vue.extend({
-  name: 'Toast'
+export default defineComponent({
+  name: 'tutorial'
 })
 </script>
 

@@ -22,7 +22,7 @@
       "  console.log(array[0].hasElement)",
       "}"
     ],
-    "errorLine": 0,
-    "error_text": "/Uncaught TypeError: /"
+    "errorLine": 6,
+    "errorText": "Uncaught TypeError: Cannot read property 'hasElement' of undefined"
   }
 ]

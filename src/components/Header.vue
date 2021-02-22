@@ -1,6 +1,6 @@
 <template>
   <nav id="header" :class="{ 'secondary-header': $route.path !== '/' }">
-    <router-link to="/">
+    <router-link :to="{ name: 'home' }">
       <h1>ERROR <span>GUESSER</span></h1>
     </router-link>
     <p>WE ALL TALK ABOUT ERROR-HANDLING, BUT CAN <span>YOU</span> HANDLE YOUR ERRORS!?</p>

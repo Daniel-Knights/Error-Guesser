@@ -7,14 +7,14 @@ module.exports = {
     parser: '@typescript-eslint/parser',
     project: resolve(__dirname, './tsconfig.json'),
     tsconfigRootDir: __dirname,
-    ecmaVersion: 2018,
+    ecmaVersion: 2021,
     sourceType: 'module'
   },
   env: { browser: true },
   extends: [
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
-    'plugin:vue/essential',
+    'plugin:vue/vue3-essential',
     'standard'
   ],
   plugins: ['@typescript-eslint', 'vue'],
@@ -22,6 +22,10 @@ module.exports = {
     ga: true, // Google Analytics
     cordova: true,
     __statics: true,
+    __QUASAR_SSR__: true,
+    __QUASAR_SSR_SERVER__: true,
+    __QUASAR_SSR_CLIENT__: true,
+    __QUASAR_SSR_PWA__: true,
     process: true,
     Capacitor: true,
     chrome: true

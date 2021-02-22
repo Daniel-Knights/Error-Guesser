@@ -19,11 +19,15 @@
   flex-direction: column;
 }
 
-@mixin selectedLine {
+@mixin selected-line {
   content: '>';
   position: absolute;
   left: -30px;
   font-weight: 600;
   font-family: monospace;
   text-shadow: none;
+}
+
+@mixin focus-shadow($color: var(--purple)) {
+  box-shadow: 0 0 0 4px $color;
 }

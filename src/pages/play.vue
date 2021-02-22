@@ -1,73 +1,103 @@
 <template>
   <main id="content">
-    <pre class="line-numbers language-js" @click="selectLine($event)">
+    <pre class="line-numbers" @click="selectLine($event)">
       <code
         v-for="(line, i) in errors[index].snippet"
-        :class="[ selectedLine === i ? 'selected-line': '', 'language-js' ]"
+        :class="[selectedLine !== i + 1 || 'selected-line', 'language-js']"
         :key="line"
         :data-line-number="i"
       >{{ line }}</code>
     </pre>
-    <div id="controls">
-      <form @submit.prevent>
-        <div class="form-group">
-          <label for="error-text">Error Text</label>
-          <textarea id="error-text" ref="textarea" cols="35" rows="4" />
-        </div>
-      </form>
-      <div id="buttons">
+
+    <form @submit.prevent>
+      <div class="form-group">
+        <label for="error-text">Error Text</label>
+        <textarea
+          v-model="errorTextGuess"
+          id="error-text"
+          ref="textarea"
+          cols="35"
+          rows="4"
+        />
+      </div>
+      <div>
         <button>RESET</button>
-        <button>SUBMIT GUESS</button>
+        <button @click="submitGuess()">SUBMIT GUESS</button>
         <button>SKIP</button>
       </div>
-    </div>
-    <Timer difficulty="hard" @time-up="submitGuess()" />
+    </form>
+    <Timer @time-up="submitGuess()" />
   </main>
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api'
+import { defineComponent, onMounted, ref } from 'vue'
 import Prism from '../assets/prism/prism'
 import '../assets/prism/prism.css'
-import type { Question } from './types'
 import errors from '../assets/errors/js.json'
 import Timer from '../components/Timer.vue'
-
-interface Data {
-  errors: Question[]
-  index: number
-  selectedLine: number | null
-}
 
 export default defineComponent({
   name: 'play',
 
   components: { Timer },
 
-  data: () => ({ index: 0, selectedLine: 0, errors } as Data),
+  setup() {
+    const index = ref(0)
+    const selectedLine = ref(1)
+    const errorTextGuess = ref('')
 
-  mounted() {
-    setTimeout(Prism.highlightAll)
-
-    this.index = Math.floor(Math.random() * this.errors.length)
-
-    const textarea = this.$refs.textarea as HTMLTextAreaElement
-    textarea.focus()
-  },
-
-  methods: {
-    selectLine(e: MouseEvent): void {
+    function selectLine(e: MouseEvent): void {
       const target = e.target as HTMLElement
       if (target.localName !== 'code') return
 
       const { lineNumber } = target.dataset
       if (!lineNumber) return
 
-      this.selectedLine = +lineNumber
-    },
-    submitGuess(): void {
-      console.log('lahayam!')
+      selectedLine.value = +lineNumber + 1
     }
+
+    function formatErrorRegex(str: string): string {
+      return str
+        .split('')
+        .map(char => {
+          switch (char) {
+            case ':':
+              return ':?'
+            case "'" || '"' || '`':
+              return '(\'|"|`)'
+            default:
+              return char
+          }
+        })
+        .join('')
+    }
+
+    function submitGuess(): void {
+      const { errorLine, errorText } = errors[index.value]
+      const errorRegex = new RegExp(`^${formatErrorRegex(errorText)}$`, 'i')
+      const result = { correctLine: false, correctText: false }
+
+      if (errorLine === selectedLine.value) {
+        console.log('correct line')
+      }
+
+      if (errorRegex.exec(errorTextGuess.value)) {
+        console.log('correct text')
+      }
+
+      if (!result.correctLine && !result.correctText) {
+        console.log('wrong')
+      }
+    }
+
+    onMounted(() => {
+      setTimeout(Prism.highlightAll)
+
+      index.value = Math.floor(Math.random() * errors.length)
+    })
+
+    return { errors, index, selectedLine, errorTextGuess, selectLine, submitGuess }
   }
 })
 </script>
@@ -94,7 +124,7 @@ pre {
     background-color: var(--dark-grey);
 
     &::before {
-      @include selectedLine;
+      @include selected-line;
     }
   }
 }

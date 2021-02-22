@@ -1,12 +1,12 @@
 <template>
-  <div id="q-app" class="container" :class="{ secondary: $route.path !== '/' }">
+  <div class="container" :class="{ secondary: $route.path !== '/' }">
     <Header />
     <router-view />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api'
+import { defineComponent } from 'vue'
 import Header from 'components/Header.vue'
 
 export default defineComponent({

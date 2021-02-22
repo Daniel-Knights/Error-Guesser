@@ -1,4 +1,5 @@
 @import 'variables';
+@import 'mixins';
 @import 'utils';
 
 *,
@@ -32,7 +33,6 @@ p {
   margin: 0 0 1em;
 }
 
-input,
 textarea {
   margin: 5px;
   padding: 5px 10px;
@@ -42,19 +42,12 @@ textarea {
   border: none;
   border-radius: 2px;
   outline: none;
+  resize: none;
   transition: all 0.15s;
 
   &:focus {
-    box-shadow: 0 0 0 6px rgba(var(--purple-rgb), 0.685);
+    @include focus-shadow;
   }
-}
-
-input[type='number'] {
-  width: 100px;
-}
-
-textarea {
-  resize: none;
 }
 
 button {
@@ -74,11 +67,18 @@ button {
   }
 
   &:focus {
-    box-shadow: 0 0 0 4px rgba(var(--purple-rgb), 0.685);
+    @include focus-shadow;
   }
 }
 
 a {
   color: var(--white);
   text-decoration: none;
+  outline: none;
+
+  &:focus {
+    button {
+      @include focus-shadow;
+    }
+  }
 }

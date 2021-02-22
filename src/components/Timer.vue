@@ -20,53 +20,64 @@
           cx="48.380959"
           cy="48.75893"
           r="40"
-          :style="
-            `stroke-dashoffset: ${strokeDashoffset >= -252 ? strokeDashoffset : -252}`
-          "
-          ref="circle"
+          :style="`stroke-dashoffset: ${
+            strokeDashoffset >= -252 ? strokeDashoffset : -252
+          }`"
         />
       </g>
     </svg>
-    <div v-if="timer >= 0" class="countdown">{{ timer }}s</div>
+    <div v-if="timeRemaining" class="countdown pump-up" ref="timer">
+      {{ timeRemaining }}s
+    </div>
     <div v-else class="countdown">TIME'S UP</div>
   </div>
 </template>
 
 <script lang="ts">
-import { ref } from '@vue/composition-api'
-import Vue from 'vue'
+import { defineComponent, onMounted, ref } from 'vue'
+import { state } from '../state'
 
-declare module 'vue/types/vue' {
-  interface Vue {
-    timer: number
-    strokeDashoffset: number
-  }
-}
-
-export default Vue.extend({
+export default defineComponent({
   name: 'Timer',
 
-  props: { difficulty: { type: String, required: true } },
-
-  setup(props, { emit }) {
-    const duration =
-      props.difficulty === 'easy' ? 60 : props.difficulty === 'medium' ? 30 : 10 // hard
-    const timer = ref(duration)
+  setup(_, { emit }) {
+    const timer = ref(null)
+    const difficulty = state.difficulty
+    const duration = difficulty === 'easy' ? 60 : difficulty === 'medium' ? 30 : 10 // hard
+    const timeRemaining = ref(duration)
     const strokeDashoffset = ref(0)
 
-    function countdown(firstCall?: boolean): void {
-      if (!firstCall) {
-        timer.value -= 1
-        strokeDashoffset.value -= 252 / duration
-      }
+    function timerAnimation(upOrDown: string): void {
+      if (!timer.value) return
 
-      if (timer.value >= 0) setTimeout(() => countdown(), 1000)
-      else emit('time-up')
+      const direction = upOrDown === 'up' ? ['down', 'up'] : ['up', 'down']
+      const typedTimer = (timer.value as unknown) as Element
+
+      typedTimer.classList.remove(`pump-${direction[0]}`)
+      typedTimer.classList.add(`pump-${direction[1]}`)
     }
 
-    countdown(true)
+    function countdown(firstCall?: boolean): void {
+      strokeDashoffset.value -= 252 / duration
 
-    return { timer, strokeDashoffset }
+      if (!firstCall) {
+        timeRemaining.value -= 1
+
+        timerAnimation('up')
+        setTimeout(() => timerAnimation('down'), 250)
+      }
+
+      if (timeRemaining.value > 0) {
+        setTimeout(() => countdown(), 1000)
+      } else emit('time-up')
+    }
+
+    onMounted(() => {
+      timerAnimation('down')
+      countdown(true)
+    })
+
+    return { timer, timeRemaining, strokeDashoffset }
   }
 })
 </script>
@@ -96,5 +107,15 @@ circle {
 .countdown {
   position: absolute;
   font: 2em monospace;
+}
+
+.pump-up {
+  transform: scale3d(1, 1, 1);
+  transition: transform 0.25s;
+}
+
+.pump-down {
+  transform: scale3d(0.8, 0.8, 1);
+  transition: transform 0.75s;
 }
 </style>
