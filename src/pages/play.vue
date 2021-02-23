@@ -1,41 +1,51 @@
 <template>
   <main id="content">
-    <pre class="line-numbers" @click="selectLine($event)">
-      <code
-        v-for="(line, i) in errors[index].snippet"
-        :class="[selectedLine !== i + 1 || 'selected-line', 'language-js']"
-        :key="line"
-        :data-line-number="i"
-      >{{ line }}</code>
-    </pre>
-
     <form @submit.prevent>
-      <div class="form-group">
-        <label for="error-text">Error Text</label>
-        <textarea
-          v-model="errorTextGuess"
-          id="error-text"
-          ref="textarea"
-          cols="35"
-          rows="4"
-        />
+      <div class="line-number">
+        <h2>Line Number</h2>
+        <pre class="line-numbers" @click="selectLine($event)">
+          <code
+            v-for="(line, i) in errors[index].snippet"
+            :class="[selectedLine !== i || 'selected-line', 'language-js']"
+            :key="line"
+            :data-line-number="i"
+          >{{ line }}</code>
+        </pre>
       </div>
+
+      <div class="error-text">
+        <h2>Error Text</h2>
+        <div class="error-options">
+          <pre
+            v-for="i in [0, 1, 2]"
+            :key="i"
+            :class="[selectedText !== i || 'selected-line', 'language-bash']"
+            @click="selectedText = i"
+          >
+            <code>{{ errors[index].errorText[i] }}</code>
+          </pre>
+        </div>
+      </div>
+
       <div>
-        <button>RESET</button>
-        <button @click="submitGuess()">SUBMIT GUESS</button>
         <button>SKIP</button>
+        <button @click="submitGuess()">SUBMIT GUESS</button>
       </div>
     </form>
+
     <Timer @time-up="submitGuess()" />
   </main>
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue'
+import { useQuasar } from 'quasar'
+import { useRoute } from 'vue-router'
 import Prism from '../assets/prism/prism'
 import '../assets/prism/prism.css'
 import errors from '../assets/errors/js.json'
-import Timer from '../components/Timer.vue'
+import Timer from 'components/Timer.vue'
+import type { Cookie } from './types'
 
 export default defineComponent({
   name: 'play',
@@ -43,9 +53,15 @@ export default defineComponent({
   components: { Timer },
 
   setup() {
+    const cookies = useQuasar().cookies
+    const difficulty = useRoute().params.difficulty
     const index = ref(0)
-    const selectedLine = ref(1)
-    const errorTextGuess = ref('')
+    const selectedLine = ref(0)
+    const selectedText = ref(0)
+
+    function setCookie(value: Cookie): void {
+      cookies.set('eg_user_records', JSON.stringify(value), { path: '/' })
+    }
 
     function selectLine(e: MouseEvent): void {
       const target = e.target as HTMLElement
@@ -54,40 +70,39 @@ export default defineComponent({
       const { lineNumber } = target.dataset
       if (!lineNumber) return
 
-      selectedLine.value = +lineNumber + 1
-    }
-
-    function formatErrorRegex(str: string): string {
-      return str
-        .split('')
-        .map(char => {
-          switch (char) {
-            case ':':
-              return ':?'
-            case "'" || '"' || '`':
-              return '(\'|"|`)'
-            default:
-              return char
-          }
-        })
-        .join('')
+      selectedLine.value = +lineNumber
     }
 
     function submitGuess(): void {
-      const { errorLine, errorText } = errors[index.value]
-      const errorRegex = new RegExp(`^${formatErrorRegex(errorText)}$`, 'i')
+      const { line, text } = errors[index.value].answers
       const result = { correctLine: false, correctText: false }
 
-      if (errorLine === selectedLine.value) {
-        console.log('correct line')
+      if (line === selectedLine.value) {
+        result.correctLine = true
+      }
+      if (text === selectedText.value) {
+        result.correctText = true
       }
 
-      if (errorRegex.exec(errorTextGuess.value)) {
-        console.log('correct text')
-      }
+      const consentCookie = cookies.get('eg_cookie_consent')
+      if (consentCookie === false) return
 
-      if (!result.correctLine && !result.correctText) {
-        console.log('wrong')
+      const userCookie: Cookie = cookies.get('eg_user_records')
+      if (userCookie) {
+        userCookie.overallScore.line += line
+        userCookie.overallScore.text += text
+        userCookie.overallScore.total += line + text
+
+        setCookie(userCookie)
+      } else {
+        setCookie({
+          preferredDifficulty: difficulty,
+          overallScore: {
+            line,
+            text,
+            total: line + text
+          }
+        })
       }
     }
 
@@ -97,7 +112,7 @@ export default defineComponent({
       index.value = Math.floor(Math.random() * errors.length)
     })
 
-    return { errors, index, selectedLine, errorTextGuess, selectLine, submitGuess }
+    return { errors, index, selectedLine, selectedText, selectLine, submitGuess }
   }
 })
 </script>
@@ -108,29 +123,37 @@ export default defineComponent({
 #content {
   @include flex-y(center, center);
   position: relative;
-  margin-bottom: 100px;
+  top: -50px;
 }
 
-label {
-  margin-top: 0;
+.line-number {
+  margin: 20px 0;
+}
+h2 {
+  margin: 0;
   font-size: 1.5em;
   letter-spacing: 1px;
+  line-height: 1em;
 }
-
 pre {
   @include flex-y(false, false);
 
   .selected-line {
-    background-color: var(--dark-grey);
-
-    &::before {
-      @include selected-line;
-    }
+    @include selected-line;
   }
 }
 
-.form-group {
+.error-text {
   @include flex-y(false, center);
   margin: 10px;
+}
+.error-options pre {
+  cursor: pointer;
+  padding: 10px 15px;
+
+  &:hover,
+  &.selected-line {
+    @include selected-line;
+  }
 }
 </style>

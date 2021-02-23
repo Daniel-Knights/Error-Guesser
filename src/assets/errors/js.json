@@ -9,8 +9,12 @@
       "  console.log(array[0].hasElement)",
       "}"
     ],
-    "errorLine": 6,
-    "errorText": "Uncaught TypeError: Cannot read property 'hasElement' of undefined"
+    "errorText": [
+      "Uncaught TypeError: Cannot read property 'hasElement' of undefined",
+      "Uncaught SyntaxError: Cannot read property '0' of undefined",
+      "Uncaught TypeError: Unexpected end of input"
+    ],
+    "answers": { "line": 5, "text": 0 }
   },
   {
     "snippet": [
@@ -22,7 +26,11 @@
       "  console.log(array[0].hasElement)",
       "}"
     ],
-    "errorLine": 6,
-    "errorText": "Uncaught TypeError: Cannot read property 'hasElement' of undefined"
+    "errorText": [
+      "Uncaught TypeError: Cannot read property 'hasElement' of undefined",
+      "Uncaught SyntaxError: Cannot read property '0' of undefined",
+      "Uncaught TypeError: Unexpected end of input"
+    ],
+    "answers": { "line": 5, "text": 0 }
   }
 ]

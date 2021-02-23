@@ -8,7 +8,7 @@ const routes: RouteRecordRaw[] = [
   },
   {
     name: 'play',
-    path: '/play',
+    path: '/play/:difficulty(easy|medium|hard)',
     component: (): Promise<typeof import('*.vue')> => import('pages/play.vue')
   },
   {

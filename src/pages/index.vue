@@ -3,20 +3,17 @@
     <router-link :to="{ name: 'tutorial' }">
       <button tabindex="-1">TUTORIAL</button>
     </router-link>
-    <router-link :to="{ name: 'play' }">
+    <router-link :to="{ name: 'play', params: { difficulty } }">
       <button tabindex="-1">PLAY</button>
     </router-link>
     <div class="difficulty-btns" @click="selectDifficulty($event)">
-      <button :class="{ selected: state.difficulty === 'easy' }" data-difficulty="easy">
+      <button :class="{ selected: difficulty === 'easy' }" data-difficulty="easy">
         EASY
       </button>
-      <button
-        :class="{ selected: state.difficulty === 'medium' }"
-        data-difficulty="medium"
-      >
+      <button :class="{ selected: difficulty === 'medium' }" data-difficulty="medium">
         MEDIUM
       </button>
-      <button :class="{ selected: state.difficulty === 'hard' }" data-difficulty="hard">
+      <button :class="{ selected: difficulty === 'hard' }" data-difficulty="hard">
         HARD
       </button>
     </div>
@@ -24,20 +21,32 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { state, setDifficulty } from '../state'
+import { defineComponent, ref } from 'vue'
+import { useQuasar } from 'quasar'
+import { Cookie } from './types'
 
 export default defineComponent({
   name: 'index',
 
   setup() {
-    function selectDifficulty({ target }: { target: HTMLElement }): void {
-      if (target.localName !== 'button' || !target.dataset.difficulty) return
+    const cookies = useQuasar().cookies
+    const userCookie: Cookie = cookies.get('eg_user_records')
+    const difficulty = ref(userCookie?.preferredDifficulty || 'easy')
 
-      setDifficulty(target.dataset.difficulty)
+    function selectDifficulty(e: Event): void {
+      const { localName, dataset }: HTMLElement = e.target
+
+      if (localName !== 'button' || !dataset.difficulty) return
+
+      difficulty.value = dataset.difficulty
+
+      if (cookies.get('eg_cookie_consent') === false || !userCookie) return
+
+      userCookie.preferredDifficulty = dataset.difficulty
+      cookies.set('eg_user_records', userCookie, { path: '/' })
     }
 
-    return { state, selectDifficulty }
+    return { difficulty, selectDifficulty }
   }
 })
 </script>

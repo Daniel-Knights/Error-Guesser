@@ -33,23 +33,6 @@ p {
   margin: 0 0 1em;
 }
 
-textarea {
-  margin: 5px;
-  padding: 5px 10px;
-  color: var(--red);
-  caret-color: var(--black);
-  font: 1.4em var(--font-secondary);
-  border: none;
-  border-radius: 2px;
-  outline: none;
-  resize: none;
-  transition: all 0.15s;
-
-  &:focus {
-    @include focus-shadow;
-  }
-}
-
 button {
   cursor: pointer;
   margin: 5px;
@@ -60,7 +43,8 @@ button {
   border: none;
   border-radius: 2px;
   outline: none;
-  transition: all 0.15s;
+  transition: box-shadow, background-color;
+  transition-duration: 0.15s;
 
   &:hover {
     background-color: var(--grey);

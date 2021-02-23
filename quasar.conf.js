@@ -27,6 +27,12 @@ module.exports = configure(function (ctx) {
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
     css: ['app.scss'],
 
+    framework: {
+      plugins: ['Cookies']
+    },
+
+    extras: ['fontawesome-v5'],
+
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
       vueRouterMode: 'history', // available values: 'hash', 'history'
