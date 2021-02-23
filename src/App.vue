@@ -1,33 +1,33 @@
 <template>
   <div class="container" :class="{ secondary: $route.path !== '/' }">
-    <NavIcons @cookie-click="cookieConsent = true" />
+    <Navicons @cookie-click="showCookieConsent = true" />
     <Header />
     <router-view />
-    <CookieConsent v-if="cookieConsent" @dismiss="cookieConsent = false" />
+    <CookieConsent v-if="showCookieConsent" @dismiss="showCookieConsent = false" />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { useQuasar } from 'quasar'
-import NavIcons from 'components/NavIcons.vue'
+import Navicons from 'components/Navicons.vue'
 import Header from 'components/Header.vue'
 import CookieConsent from 'components/CookieConsent.vue'
+import { state, setConsentCookie } from './state'
 
 export default defineComponent({
   name: 'App',
 
-  components: { NavIcons, Header, CookieConsent },
+  components: { Navicons, Header, CookieConsent },
 
   setup() {
     const cookies = useQuasar().cookies
-    const cookieConsent = ref(true)
 
-    if (cookies.has('eg_cookie_consent')) {
-      cookieConsent.value = false
-    }
+    setConsentCookie(cookies.get('eg_cookie_consent'))
 
-    return { cookieConsent }
+    const showCookieConsent = ref(state.consentCookie === null)
+
+    return { showCookieConsent }
   }
 })
 </script>

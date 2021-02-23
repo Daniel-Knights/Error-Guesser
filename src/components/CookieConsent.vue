@@ -22,30 +22,32 @@
 <script lang="ts">
 import { useQuasar } from 'quasar'
 import { defineComponent } from 'vue'
+import { setConsentCookie } from '../state'
 
 export default defineComponent({
   name: 'CookieConsent',
 
   setup(_, { emit }) {
     const cookies = useQuasar().cookies
-    const existingConsentCookie = cookies.has('eg_cookie_consent')
 
     function disableCookies(): void {
       const existingUserCookie = cookies.has('eg_user_records')
-      if (existingUserCookie) cookies.remove('eg_user_records')
+      if (existingUserCookie) cookies.remove('eg_user_records', { path: '/' })
 
       cookies.set('eg_cookie_consent', 'false', { path: '/' })
+      setConsentCookie(false)
 
       emit('dismiss')
     }
 
     function allowCookies(): void {
       cookies.set('eg_cookie_consent', 'true', { path: '/' })
+      setConsentCookie(true)
 
       emit('dismiss')
     }
 
-    return { existingConsentCookie, disableCookies, allowCookies }
+    return { disableCookies, allowCookies }
   }
 })
 </script>

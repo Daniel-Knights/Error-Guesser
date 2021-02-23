@@ -33,18 +33,23 @@ p {
   margin: 0 0 1em;
 }
 
-button {
-  cursor: pointer;
+@mixin form-elements {
   margin: 5px;
   padding: 10px 15px;
   letter-spacing: 1.5px;
-  font: 1.5em var(--font-primary);
   background-color: var(--white);
   border: none;
+  font-size: 1.5em;
   border-radius: 2px;
   outline: none;
   transition: box-shadow, background-color;
   transition-duration: 0.15s;
+}
+
+button {
+  cursor: pointer;
+  font-family: var(--font-primary);
+  @include form-elements;
 
   &:hover {
     background-color: var(--grey);
@@ -54,6 +59,18 @@ button {
     transition: box-shadow 0.15s;
     @include focus-shadow;
   }
+}
+
+input {
+  @include form-elements;
+
+  &:focus {
+    @include focus-shadow;
+  }
+}
+
+label {
+  font-size: 1.5em;
 }
 
 a {

@@ -25,23 +25,30 @@
     </div>
   </div>
 
-  <div class="difficulty-btns" @click="selectDifficulty($event)">
-    <button :class="{ selected: difficulty === 'easy' }" data-difficulty="easy">
-      EASY
-    </button>
-    <button :class="{ selected: difficulty === 'medium' }" data-difficulty="medium">
-      MEDIUM
-    </button>
-    <button :class="{ selected: difficulty === 'hard' }" data-difficulty="hard">
-      HARD
-    </button>
-  </div>
+  <form @submit.prevent>
+    <div class="difficulty-btns" @click="selectDifficulty($event)">
+      <button :class="{ selected: difficulty === 'easy' }" data-difficulty="easy">
+        EASY
+      </button>
+      <button :class="{ selected: difficulty === 'medium' }" data-difficulty="medium">
+        MEDIUM
+      </button>
+      <button :class="{ selected: difficulty === 'hard' }" data-difficulty="hard">
+        HARD
+      </button>
+    </div>
+    <div v-if="state.consentCookie !== false">
+      <label for="name-input">NAME:</label>
+      <input v-model="name" id="name-input" type="text" />
+    </div>
+  </form>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, onBeforeUnmount } from 'vue'
 import { useQuasar } from 'quasar'
-import { Cookie } from './types'
+import type { Cookie } from './types'
+import { state } from '../state'
 
 export default defineComponent({
   name: 'index',
@@ -49,8 +56,10 @@ export default defineComponent({
   setup() {
     const cookies = useQuasar().cookies
     const userCookie: Cookie = cookies.get('eg_user_records')
+    console.log(userCookie)
     const difficulty = ref(userCookie?.preferredDifficulty || 'easy')
     const showModal = ref(false)
+    const name = ref('')
 
     function selectDifficulty(e: Event): void {
       const { localName, dataset }: HTMLElement = e.target
@@ -58,14 +67,25 @@ export default defineComponent({
       if (localName !== 'button' || !dataset.difficulty) return
 
       difficulty.value = dataset.difficulty
-
-      if (cookies.get('eg_cookie_consent') === false || !userCookie) return
-
-      userCookie.preferredDifficulty = dataset.difficulty
-      cookies.set('eg_user_records', userCookie, { path: '/' })
     }
 
-    return { difficulty, showModal, selectDifficulty }
+    onBeforeUnmount(() => {
+      if (state.consentCookie === false) return
+
+      if (!userCookie) {
+        cookies.set(
+          'eg_user_records',
+          { name: name.value, preferredDifficulty: difficulty.value },
+          { path: '/' }
+        )
+      } else {
+        userCookie.name = name.value
+        userCookie.preferredDifficulty = difficulty.value
+        cookies.set('eg_user_records', userCookie, { path: '/' })
+      }
+    })
+
+    return { state, difficulty, showModal, name, selectDifficulty }
   }
 })
 </script>

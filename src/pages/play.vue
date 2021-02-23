@@ -46,6 +46,7 @@ import '../assets/prism/prism.css'
 import errors from '../assets/errors/js.json'
 import Timer from 'components/Timer.vue'
 import type { Cookie } from './types'
+import { state } from '../state'
 
 export default defineComponent({
   name: 'play',
@@ -84,25 +85,28 @@ export default defineComponent({
         result.correctText = true
       }
 
-      const consentCookie = cookies.get('eg_cookie_consent')
-      if (consentCookie === false) return
+      if (state.consentCookie === false) return
 
       const userCookie: Cookie = cookies.get('eg_user_records')
+      const score = {
+        line: result.correctLine ? 1 : 0,
+        text: result.correctText ? 1 : 0
+      }
+
+      score['total'] = score.line + score.text
+
       if (userCookie) {
-        userCookie.overallScore.line += line
-        userCookie.overallScore.text += text
-        userCookie.overallScore.total += line + text
+        if (userCookie.overallScore) {
+          userCookie.overallScore.line += score.line
+          userCookie.overallScore.text += score.text
+          userCookie.overallScore.total += score.line + score.text
+        } else {
+          userCookie.overallScore = score
+        }
 
         setCookie(userCookie)
       } else {
-        setCookie({
-          preferredDifficulty: difficulty,
-          overallScore: {
-            line,
-            text,
-            total: line + text
-          }
-        })
+        setCookie({ preferredDifficulty: difficulty, overallScore: score })
       }
     }
 

@@ -31,6 +31,7 @@ module.exports = {
     chrome: true
   },
   rules: {
+    'dot-notation': 'off',
     'space-before-function-paren': 'off',
     // allow async-await
     'generator-star-spacing': 'off',

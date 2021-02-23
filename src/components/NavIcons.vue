@@ -1,5 +1,5 @@
 <template>
-  <nav id="nav-icons">
+  <nav id="navicons">
     <i @click="$emit('cookie-click')" class="fa fa-cookie-bite"></i>
     <a
       href="https://github.com/Daniel-Knights/Error-Guesser"
@@ -12,7 +12,7 @@
 </template>
 
 <style lang="scss" scoped>
-#nav-icons {
+#navicons {
   position: fixed;
   top: 0;
   right: 0;
@@ -22,6 +22,7 @@
     cursor: pointer;
     margin: 0 0.5em;
     font-size: 1.5em;
+    text-shadow: 0px 2px rgba(var(--black-rgb), 0.3);
     transition: color 0.15s;
 
     &:hover {
