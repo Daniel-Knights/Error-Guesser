@@ -51,6 +51,7 @@ button {
   }
 
   &:focus {
+    transition: box-shadow 0.15s;
     @include focus-shadow;
   }
 }
@@ -62,6 +63,7 @@ a {
 
   &:focus {
     button {
+      transition: box-shadow 0.15s;
       @include focus-shadow;
     }
   }

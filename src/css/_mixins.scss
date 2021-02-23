@@ -32,6 +32,6 @@
   }
 }
 
-@mixin focus-shadow($color: var(--purple)) {
+@mixin focus-shadow($color: rgba(var(--blue-rgb), 0.9)) {
   box-shadow: 0 0 0 4px $color;
 }

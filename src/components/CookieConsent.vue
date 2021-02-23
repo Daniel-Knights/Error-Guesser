@@ -11,6 +11,7 @@
         believe me!
       </p>
     </div>
+
     <div class="cookie-btns">
       <button @click="disableCookies()">DISABLE COOKIES</button>
       <button @click="allowCookies()">ALLOW COOKIES</button>
