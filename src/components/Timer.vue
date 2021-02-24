@@ -20,9 +20,11 @@
           cx="48.380959"
           cy="48.75893"
           r="40"
-          :style="`stroke-dashoffset: ${
-            strokeDashoffset >= -252 ? strokeDashoffset : -252
-          }`"
+          ref="circle"
+          :style="`
+            stroke-dashoffset: ${strokeDashoffset >= -252 ? strokeDashoffset : -252};
+            transition-duration: ${$q.appVisible ? 1 : 0}s
+          `"
         />
       </g>
     </svg>

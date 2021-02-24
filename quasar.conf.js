@@ -25,7 +25,7 @@ module.exports = configure(function (ctx) {
     css: ['app.scss'],
 
     framework: {
-      plugins: ['Cookies', 'Meta']
+      plugins: ['Cookies', 'Meta', 'AppVisibility']
     },
 
     boot: ['cookies'],
