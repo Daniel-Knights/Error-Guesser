@@ -1,5 +1,5 @@
 <template>
-  <div id="timer">
+  <div class="timer">
     <svg width="95mm" height="95mm" viewBox="0 0 95 95" id="svg8">
       <defs id="defs2">
         <linearGradient id="linearGradient2917">
@@ -85,7 +85,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import '../css/mixins';
 
-#timer {
+.timer {
   @include flex-x(center, center);
   position: fixed;
   right: 0;

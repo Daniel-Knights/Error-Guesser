@@ -1,5 +1,5 @@
 <template>
-  <main id="content">
+  <main class="content">
     <form @submit.prevent>
       <div class="line-number">
         <h2>Line Number</h2>
@@ -129,7 +129,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import '../css/mixins';
 
-#content {
+.content {
   @include flex-y(center, center);
   position: relative;
   top: -50px;

@@ -1,5 +1,5 @@
 <template>
-  <nav id="header" :class="{ 'secondary-header': $route.path !== '/' }">
+  <nav class="header" :class="{ 'secondary-header': $route.path !== '/' }">
     <router-link :to="{ name: 'home' }">
       <h1>ERROR <span>GUESSER</span></h1>
     </router-link>

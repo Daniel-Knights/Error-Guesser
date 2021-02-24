@@ -1,5 +1,5 @@
 <template>
-  <div id="loading">
+  <div class="loading">
     <div class="loading-container">
       <svg
         id="svg8"
@@ -37,7 +37,7 @@
 <style lang="scss" scoped>
 @import '../css/mixins';
 
-#loading {
+.loading {
   @include flex-x(center, center);
   position: absolute;
   height: 100vh;

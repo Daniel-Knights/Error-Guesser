@@ -6,24 +6,22 @@
     </router-link>
   </nav>
 
-  <div v-if="showModal" @click="showModal = false" class="help-modal">
-    <div class="help-modal-content">
-      <h2>HOW TO PLAY</h2>
-      <ol>
-        <li>
-          SELECT DIFFICULTY:
-          <ul>
-            <li>EASY: 60s</li>
-            <li>MEDIUM: 30s</li>
-            <li>HARD: 10s</li>
-          </ul>
-        </li>
-        <li>SELECT THE LINE YOU THINK IS THE ORIGIN OF THE ERROR</li>
-        <li>SELECT THE OPTION YOU THINK IS THE TEXT OF THE ERROR</li>
-        <li>SUBMIT YOUR GUESS</li>
-      </ol>
-    </div>
-  </div>
+  <Modal v-if="showModal" @click="showModal = false">
+    <h2>HOW TO PLAY</h2>
+    <ol>
+      <li>
+        SELECT DIFFICULTY:
+        <ul>
+          <li>EASY: 60s</li>
+          <li>MEDIUM: 30s</li>
+          <li>HARD: 10s</li>
+        </ul>
+      </li>
+      <li>SELECT THE LINE YOU THINK IS THE ORIGIN OF THE ERROR.</li>
+      <li>SELECT THE OPTION YOU THINK IS THE TEXT OF THE ERROR.</li>
+      <li>SUBMIT YOUR GUESS.</li>
+    </ol>
+  </Modal>
 
   <form @submit.prevent>
     <div class="difficulty-btns" @click="selectDifficulty($event)">
@@ -48,9 +46,12 @@ import { defineComponent, ref, onBeforeUnmount } from 'vue'
 import { useQuasar } from 'quasar'
 import { setUserCookie, state } from '../state'
 import type { Cookie } from '../types'
+import Modal from '../components/Modal.vue'
 
 export default defineComponent({
   name: 'index',
+
+  components: { Modal },
 
   setup() {
     const cookies = useQuasar().cookies
@@ -93,30 +94,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '../css/mixins';
-
-.help-modal {
-  cursor: pointer;
-  @include flex-x(center, center);
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background-color: rgba(var(--black-rgb), 0.5);
-}
-.help-modal-content {
-  display: grid;
-  grid-template-rows: 20% 80%;
-  justify-items: center;
-  width: 50vw;
-  height: 50vh;
-  text-align: left;
-  font: 1.2em monospace;
-  color: var(--black);
-  background-color: var(--white);
-  border-radius: 4px;
-}
 h2 {
   margin: 0;
   font-size: 1.5em;
