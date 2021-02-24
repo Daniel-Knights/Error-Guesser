@@ -38,8 +38,7 @@
       </button>
     </div>
     <div v-if="state.consentCookie !== false">
-      <label for="name-input">NAME:</label>
-      <input v-model="name" id="name-input" type="text" />
+      <input v-model="name" id="name-input" type="text" placeholder="NAME" />
     </div>
   </form>
 </template>
@@ -57,7 +56,7 @@ export default defineComponent({
     const cookies = useQuasar().cookies
     const difficulty = ref(state.userCookie?.preferredDifficulty || 'easy')
     const showModal = ref(false)
-    const name = ref('')
+    const name = ref(state.userCookie?.name || '')
 
     function selectDifficulty(e: Event): void {
       const { localName, dataset } = e.target as HTMLElement
