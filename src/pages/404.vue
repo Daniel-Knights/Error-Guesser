@@ -1,20 +1,12 @@
 <template>
-  <div class="fullscreen bg-blue text-white text-center q-pa-md flex flex-center">
-    <div>
-      <div style="font-size: 30vh">404</div>
+  <div class="not-found">
+    <h1>404</h1>
 
-      <div class="text-h2" style="opacity: 0.4">Oops. Nothing here...</div>
+    <p>Oops. Nothing here...</p>
 
-      <q-btn
-        class="q-mt-xl"
-        color="white"
-        text-color="blue"
-        unelevated
-        to="/"
-        label="Go Home"
-        no-caps
-      />
-    </div>
+    <router-link to="/">
+      <button>HOME</button>
+    </router-link>
   </div>
 </template>
 
@@ -30,3 +22,26 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="scss" scoped>
+@import '../css/mixins';
+
+.not-found {
+  @include flex-y(center, center);
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient(135deg, var(--orange), var(--rose));
+}
+
+h1 {
+  margin: 0;
+  font-size: 30vh;
+  font-weight: 500;
+}
+
+p {
+  opacity: 0.4;
+  font-size: 3em;
+}
+</style>

@@ -1,31 +1,14 @@
 <template>
   <main v-if="filteredErrors[index]" class="content">
     <form @submit.prevent>
-      <div class="line-number">
-        <h2>Line Number</h2>
-        <pre class="line-numbers" @click="selectLine($event)">
-          <code
-            v-for="(line, i) in filteredErrors[index].snippet"
-            :class="[selectedLine !== i || 'selected-line', 'language-js']"
-            :key="line"
-            :data-line-number="i"
-          >{{ line }}</code>
-        </pre>
-      </div>
-
-      <div class="error-text">
-        <h2>Error Text</h2>
-        <div class="error-options">
-          <pre
-            v-for="i in [0, 1, 2]"
-            :key="i"
-            :class="[selectedText !== i || 'selected-line', 'language-bash']"
-            @click="selectedText = i"
-          >
-            <code>{{ filteredErrors[index].errorText[i] }}</code>
-          </pre>
-        </div>
-      </div>
+      <Options
+        :index="index"
+        :filteredErrors="filteredErrors"
+        :selectedLine="selectedLine"
+        :selectedText="selectedText"
+        @line-select="selectedLine = $event"
+        @text-select="selectedText = $event"
+      />
 
       <div>
         <button @click="skip()">SKIP</button>
@@ -57,12 +40,13 @@ import Prism from '../assets/prism/prism'
 import '../assets/prism/prism.css'
 import { setUserCookie, state } from '../state'
 import type { ErrorQuestion, Cookie } from '../types'
+import Options from 'components/Options.vue'
 import Timer from 'components/Timer.vue'
 
 export default defineComponent({
   name: 'play',
 
-  components: { Timer },
+  components: { Options, Timer },
 
   setup() {
     const cookies = useQuasar().cookies
@@ -104,16 +88,6 @@ export default defineComponent({
 
       cookies.set('eg_user_records', JSON.stringify(cookie), { path: '/' })
       setUserCookie(cookie)
-    }
-
-    function selectLine(e: MouseEvent): void {
-      const target = e.target as HTMLElement
-      if (target.localName !== 'code') return
-
-      const { lineNumber } = target.dataset
-      if (!lineNumber) return
-
-      selectedLine.value = +lineNumber
     }
 
     function submitGuess(): void {
@@ -172,16 +146,7 @@ export default defineComponent({
       index.value = Math.floor(Math.random() * filteredErrors.value.length)
     })
 
-    return {
-      filteredErrors,
-      index,
-      selectedLine,
-      selectedText,
-      selectLine,
-      submitGuess,
-      skip,
-      reset
-    }
+    return { filteredErrors, index, selectedLine, selectedText, submitGuess, skip, reset }
   }
 })
 </script>
@@ -193,37 +158,6 @@ export default defineComponent({
   @include flex-y(center, center);
   position: relative;
   top: -50px;
-}
-
-.line-number {
-  margin: 20px 0;
-}
-h2 {
-  margin: 0;
-  font-size: 1.5em;
-  letter-spacing: 1px;
-  line-height: 1em;
-}
-pre {
-  @include flex-y(false, false);
-
-  .selected-line {
-    @include selected-line;
-  }
-}
-
-.error-text {
-  @include flex-y(false, center);
-  margin: 10px;
-}
-.error-options pre {
-  cursor: pointer;
-  padding: 10px 15px;
-
-  &:hover,
-  &.selected-line {
-    @include selected-line;
-  }
 }
 
 .game-complete {
