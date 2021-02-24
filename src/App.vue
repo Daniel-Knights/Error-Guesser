@@ -9,11 +9,10 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { useQuasar } from 'quasar'
+import { state } from './state'
 import Navicons from 'components/Navicons.vue'
 import Header from 'components/Header.vue'
 import CookieConsent from 'components/CookieConsent.vue'
-import { state, setConsentCookie } from './state'
 
 export default defineComponent({
   name: 'App',
@@ -21,10 +20,6 @@ export default defineComponent({
   components: { Navicons, Header, CookieConsent },
 
   setup() {
-    const cookies = useQuasar().cookies
-
-    setConsentCookie(cookies.get('eg_cookie_consent'))
-
     const showCookieConsent = ref(state.consentCookie === null)
 
     return { showCookieConsent }

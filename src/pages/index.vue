@@ -47,41 +47,44 @@
 <script lang="ts">
 import { defineComponent, ref, onBeforeUnmount } from 'vue'
 import { useQuasar } from 'quasar'
-import type { Cookie } from './types'
-import { state } from '../state'
+import { setUserCookie, state } from '../state'
+import type { Cookie } from '../types'
 
 export default defineComponent({
   name: 'index',
 
   setup() {
     const cookies = useQuasar().cookies
-    const userCookie: Cookie = cookies.get('eg_user_records')
-    console.log(userCookie)
-    const difficulty = ref(userCookie?.preferredDifficulty || 'easy')
+    const difficulty = ref(state.userCookie?.preferredDifficulty || 'easy')
     const showModal = ref(false)
     const name = ref('')
 
     function selectDifficulty(e: Event): void {
-      const { localName, dataset }: HTMLElement = e.target
+      const { localName, dataset } = e.target as HTMLElement
 
       if (localName !== 'button' || !dataset.difficulty) return
 
       difficulty.value = dataset.difficulty
     }
 
+    function setCookie(cookie: Cookie): void {
+      cookies.set('eg_user_records', JSON.stringify(cookie), { path: '/' })
+      setUserCookie(cookie)
+    }
+
     onBeforeUnmount(() => {
       if (state.consentCookie === false) return
 
-      if (!userCookie) {
-        cookies.set(
-          'eg_user_records',
-          { name: name.value, preferredDifficulty: difficulty.value },
-          { path: '/' }
-        )
+      if (!state.userCookie) {
+        setCookie({
+          name: name.value,
+          preferredDifficulty: difficulty.value,
+          overallScore: { line: 0, text: 0, total: 0 }
+        })
       } else {
-        userCookie.name = name.value
-        userCookie.preferredDifficulty = difficulty.value
-        cookies.set('eg_user_records', userCookie, { path: '/' })
+        state.userCookie.name = name.value
+        state.userCookie.preferredDifficulty = difficulty.value
+        setCookie(state.userCookie)
       }
     })
 

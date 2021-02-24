@@ -7,7 +7,7 @@ import {
 } from 'vue-router'
 import routes from './routes'
 
-export default function (/* { store, ssrContext } */) {
+export default function (/* { ssrContext } */) {
   const createHistory = process.env.SERVER
     ? createMemoryHistory
     : process.env.VUE_ROUTER_MODE === 'history'

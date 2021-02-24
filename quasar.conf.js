@@ -31,6 +31,8 @@ module.exports = configure(function (ctx) {
       plugins: ['Cookies']
     },
 
+    boot: ['cookies'],
+
     extras: ['fontawesome-v5'],
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
