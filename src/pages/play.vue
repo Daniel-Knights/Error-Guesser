@@ -39,7 +39,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue'
-import { useQuasar } from 'quasar'
+import { useMeta, useQuasar } from 'quasar'
 import { useRoute } from 'vue-router'
 import Prism from '../assets/prism/prism'
 import '../assets/prism/prism.css'
@@ -58,7 +58,7 @@ export default defineComponent({
     const index = ref(0)
     const selectedLine = ref(0)
     const selectedText = ref(0)
-    const filteredErrors = ref<ErrorQuestion[]>([])
+    const filteredErrors = ref([])
 
     async function fetchFile(): void {
       if (typeof lang !== 'string') return
@@ -68,10 +68,12 @@ export default defineComponent({
       )) as ErrorQuestion[]
 
       filteredErrors.value = fetchedErrors
+
       setTimeout(Prism.highlightAll)
     }
 
     fetchFile()
+    useMeta({ title: 'Play' })
 
     function setCookie(cookie: Cookie): void {
       cookies.set('eg_user_records', JSON.stringify(cookie), { path: '/' })
@@ -89,7 +91,7 @@ export default defineComponent({
     }
 
     function submitGuess(): void {
-      const { line, text } = filteredErrors.value[index.value].answers
+      const { line, text } = filteredErrors.value[index.value].answers as ErrorQuestion[]
       const result = { correctLine: false, correctText: false }
 
       if (line === selectedLine.value) {
@@ -122,7 +124,7 @@ export default defineComponent({
       } else {
         setCookie({
           name: '',
-          preferredDifficulty: difficulty,
+          preferredDifficulty: difficulty as string,
           overallScore: score
         })
       }

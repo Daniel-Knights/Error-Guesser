@@ -1,10 +1,10 @@
 <template>
-  <nav>
+  <div>
     <button @click="showModal = true">HELP</button>
     <router-link :to="{ name: 'play', params: { lang: 'javascript', difficulty } }">
       <button tabindex="-1">PLAY</button>
     </router-link>
-  </nav>
+  </div>
 
   <Modal v-if="showModal" @click="showModal = false">
     <h2>HOW TO PLAY</h2>

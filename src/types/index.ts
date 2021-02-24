@@ -1,3 +1,9 @@
+/**
+ * @property `id: number`
+ * @property `snippet: string[]`
+ * @property `errorText: string[]`
+ * @property `answers: { line: number text: number }`
+ */
 export interface ErrorQuestion {
   id: number
   snippet: string[]
