@@ -35,6 +35,18 @@
 
     <Timer @time-up="submitGuess()" />
   </main>
+  <div v-else class="game-complete">
+    <p>You've answered all available questions!</p>
+    <p>
+      You can either <span @click="reset()">play again</span>, or,
+      <a
+        href="https://github.com/Daniel-Knights/Error-Guesser"
+        rel="noopener"
+        target="_blank"
+        >contribute more questions for others to play.</a
+      >
+    </p>
+  </div>
 </template>
 
 <script lang="ts">
@@ -60,23 +72,36 @@ export default defineComponent({
     const selectedLine = ref(0)
     const selectedText = ref(0)
     const filteredErrors = ref<ErrorQuestion[]>([])
+    const allErrors = ref<ErrorQuestion[]>([])
 
     async function fetchFile(): Promise<void> {
       if (typeof lang !== 'string') return
 
-      const fetchedErrors = (await import(
-        `../assets/errors/${lang}.json`
-      )) as ErrorQuestion[]
+      const fetchedErrors = (await import(`../assets/errors/${lang}.json`)) as {
+        default: ErrorQuestion[]
+      }
 
-      filteredErrors.value = fetchedErrors
+      allErrors.value = fetchedErrors.default
+      filteredErrors.value = fetchedErrors.default.filter(fetchedError => {
+        if (!state.userCookie) return fetchedError
+        else {
+          return !state.userCookie?.answeredQuestionIds.includes(fetchedError.id)
+        }
+      })
 
       setTimeout(Prism.highlightAll)
     }
 
-    fetchFile().catch(() => router.push({ name: 'error' }))
+    fetchFile().catch(err => {
+      // eslint-disable-next-line
+      router.push({ name: 'error' })
+      console.error(err)
+    })
     useMeta({ title: 'Play' })
 
     function setCookie(cookie: Cookie): void {
+      if (state.consentCookie === false) return
+
       cookies.set('eg_user_records', JSON.stringify(cookie), { path: '/' })
       setUserCookie(cookie)
     }
@@ -113,13 +138,10 @@ export default defineComponent({
       score.total = score.line + score.text
 
       if (state.userCookie) {
-        if (state.userCookie.overallScore) {
-          state.userCookie.overallScore.line += score.line
-          state.userCookie.overallScore.text += score.text
-          state.userCookie.overallScore.total += score.line + score.text
-        } else {
-          state.userCookie.overallScore = score
-        }
+        state.userCookie.overallScore.line += score.line
+        state.userCookie.overallScore.text += score.text
+        state.userCookie.overallScore.total += score.line + score.text
+        state.userCookie.answeredQuestionIds.push(filteredErrors.value[index.value].id)
 
         setCookie(state.userCookie)
       } else {
@@ -127,13 +149,22 @@ export default defineComponent({
           name: '',
           preferredDifficulty: difficulty as string,
           overallScore: score,
-          answeredQuestionIds: []
+          answeredQuestionIds: [filteredErrors.value[index.value].id]
         })
       }
     }
 
     function skip(): void {
       index.value = Math.floor(Math.random() * filteredErrors.value.length)
+      setTimeout(Prism.highlightAll)
+    }
+
+    function reset(): void {
+      if (!state.userCookie) return
+
+      filteredErrors.value = allErrors.value
+      state.userCookie.answeredQuestionIds = []
+      setCookie(state.userCookie)
       setTimeout(Prism.highlightAll)
     }
 
@@ -148,7 +179,8 @@ export default defineComponent({
       selectedText,
       selectLine,
       submitGuess,
-      skip
+      skip,
+      reset
     }
   }
 })
@@ -191,6 +223,24 @@ pre {
   &:hover,
   &.selected-line {
     @include selected-line;
+  }
+}
+
+.game-complete {
+  padding: 10px;
+  max-width: 800px;
+  font: 1.5em var(--font-secondary);
+
+  span,
+  a {
+    cursor: pointer;
+    color: var(--black);
+    text-decoration: underline;
+    text-shadow: none;
+
+    &:hover {
+      text-decoration: none;
+    }
   }
 }
 </style>

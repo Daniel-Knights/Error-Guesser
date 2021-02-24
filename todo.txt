@@ -3,4 +3,4 @@ responsive design
 redo capacitor, electron, ssr with icon-genie
 SEO - meta tags
 question result screen/modal
-filter already answered questions
+link to contribution guide when all questions answered
