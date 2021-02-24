@@ -62,7 +62,7 @@ button {
 }
 
 input {
-  font-family: monospace;
+  font-family: var(--font-secondary);
   text-align: center;
   @include form-elements;
 

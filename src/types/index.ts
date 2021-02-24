@@ -27,4 +27,5 @@ export interface Cookie {
     text: number
     total: number
   }
+  answeredQuestionIds: number[]
 }

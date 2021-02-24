@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Code+Pro&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
 @function hexToRGB($hex) {
   @return red($hex), green($hex), blue($hex);
@@ -6,7 +6,7 @@
 
 :root {
   --font-primary: 'Bebas Neue', sans-serif;
-  --font-secondary: 'Source Code Pro', monospace;
+  --font-secondary: monospace;
 
   --orange: #ffab63;
   --rose: #ca5e70;

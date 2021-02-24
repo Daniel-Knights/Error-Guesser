@@ -79,7 +79,8 @@ export default defineComponent({
         setCookie({
           name: name.value,
           preferredDifficulty: difficulty.value,
-          overallScore: { line: 0, text: 0, total: 0 }
+          overallScore: { line: 0, text: 0, total: 0 },
+          answeredQuestionIds: []
         })
       } else {
         state.userCookie.name = name.value

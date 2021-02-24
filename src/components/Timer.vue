@@ -108,7 +108,7 @@ circle {
 
 .countdown {
   position: absolute;
-  font: 2em monospace;
+  font: 2em var(--font-secondary);
 }
 
 .pump-up {

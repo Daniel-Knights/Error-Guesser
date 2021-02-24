@@ -12,6 +12,11 @@ const routes: RouteRecordRaw[] = [
     component: (): Promise<typeof import('*.vue')> => import('pages/play.vue')
   },
   {
+    name: 'error',
+    path: '/error',
+    component: (): Promise<typeof import('*.vue')> => import('pages/error.vue')
+  },
+  {
     path: '/:catchAll(.*)*',
     component: (): Promise<typeof import('*.vue')> => import('pages/404.vue')
   }

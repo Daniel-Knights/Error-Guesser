@@ -37,7 +37,7 @@ export default defineComponent({
   justify-items: center;
   padding: 2em;
   text-align: left;
-  font: 1.2em monospace;
+  font: 1.2em var(--font-secondary);
   color: var(--black);
   background-color: var(--white);
   border-radius: 4px;

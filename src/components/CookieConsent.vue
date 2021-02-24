@@ -69,7 +69,7 @@ export default defineComponent({
 }
 .cookie-text {
   margin: 1em;
-  font: 1em monospace;
+  font: 1em var(--font-secondary);
   text-align: left;
 
   p {
