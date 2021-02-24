@@ -47,6 +47,7 @@
 
 svg {
   margin: 5px;
+  transform: scale3d(1, 0.8, 1);
   animation: loading 1.1s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
 
   @for $i from 1 through 3 {

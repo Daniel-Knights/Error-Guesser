@@ -2,5 +2,6 @@ a11y
 responsive design
 redo capacitor, electron, ssr with icon-genie
 SEO - meta tags
-question result screen/modal
+finish README
 link to contribution guide when all questions answered
+question result screen/modal

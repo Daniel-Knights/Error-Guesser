@@ -54,6 +54,7 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'warn',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
+    '@typescript-eslint/no-floating-promises': 'off',
 
     // allow debugger during development only
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
