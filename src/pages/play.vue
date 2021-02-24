@@ -1,11 +1,11 @@
 <template>
-  <main class="content">
+  <main v-if="filteredErrors[index]" class="content">
     <form @submit.prevent>
       <div class="line-number">
         <h2>Line Number</h2>
         <pre class="line-numbers" @click="selectLine($event)">
           <code
-            v-for="(line, i) in errors[index].snippet"
+            v-for="(line, i) in filteredErrors[index].snippet"
             :class="[selectedLine !== i || 'selected-line', 'language-js']"
             :key="line"
             :data-line-number="i"
@@ -22,13 +22,13 @@
             :class="[selectedText !== i || 'selected-line', 'language-bash']"
             @click="selectedText = i"
           >
-            <code>{{ errors[index].errorText[i] }}</code>
+            <code>{{ filteredErrors[index].errorText[i] }}</code>
           </pre>
         </div>
       </div>
 
       <div>
-        <button>SKIP</button>
+        <button @click="skip()">SKIP</button>
         <button @click="submitGuess()">SUBMIT GUESS</button>
       </div>
     </form>
@@ -43,9 +43,8 @@ import { useQuasar } from 'quasar'
 import { useRoute } from 'vue-router'
 import Prism from '../assets/prism/prism'
 import '../assets/prism/prism.css'
-import errors from '../assets/errors/js.json'
 import { setUserCookie, state } from '../state'
-import type { Cookie } from '../types'
+import type { ErrorQuestion, Cookie } from '../types'
 import Timer from 'components/Timer.vue'
 
 export default defineComponent({
@@ -55,10 +54,24 @@ export default defineComponent({
 
   setup() {
     const cookies = useQuasar().cookies
-    const difficulty = useRoute().params.difficulty
+    const { lang, difficulty } = useRoute().params
     const index = ref(0)
     const selectedLine = ref(0)
     const selectedText = ref(0)
+    const filteredErrors = ref<ErrorQuestion[]>([])
+
+    async function fetchFile(): void {
+      if (typeof lang !== 'string') return
+
+      const fetchedErrors = (await import(
+        `../assets/errors/${lang}.json`
+      )) as ErrorQuestion[]
+
+      filteredErrors.value = fetchedErrors
+      setTimeout(Prism.highlightAll)
+    }
+
+    fetchFile()
 
     function setCookie(cookie: Cookie): void {
       cookies.set('eg_user_records', JSON.stringify(cookie), { path: '/' })
@@ -76,7 +89,7 @@ export default defineComponent({
     }
 
     function submitGuess(): void {
-      const { line, text } = errors[index.value].answers
+      const { line, text } = filteredErrors.value[index.value].answers
       const result = { correctLine: false, correctText: false }
 
       if (line === selectedLine.value) {
@@ -109,19 +122,30 @@ export default defineComponent({
       } else {
         setCookie({
           name: '',
-          preferredDifficulty: difficulty as string,
+          preferredDifficulty: difficulty,
           overallScore: score
         })
       }
     }
 
-    onMounted(() => {
+    function skip(): void {
+      index.value = Math.floor(Math.random() * filteredErrors.value.length)
       setTimeout(Prism.highlightAll)
+    }
 
-      index.value = Math.floor(Math.random() * errors.length)
+    onMounted(() => {
+      index.value = Math.floor(Math.random() * filteredErrors.value.length)
     })
 
-    return { errors, index, selectedLine, selectedText, selectLine, submitGuess }
+    return {
+      filteredErrors,
+      index,
+      selectedLine,
+      selectedText,
+      selectLine,
+      submitGuess,
+      skip
+    }
   }
 })
 </script>

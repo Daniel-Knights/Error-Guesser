@@ -1,7 +1,7 @@
 <template>
   <nav>
     <button @click="showModal = true">HELP</button>
-    <router-link :to="{ name: 'play', params: { difficulty } }">
+    <router-link :to="{ name: 'play', params: { lang: 'javascript', difficulty } }">
       <button tabindex="-1">PLAY</button>
     </router-link>
   </nav>

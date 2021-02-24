@@ -40,7 +40,7 @@ import { useRoute } from 'vue-router'
 export default defineComponent({
   name: 'Timer',
 
-  setup(_, ctx) {
+  setup(_, { emit }) {
     const timer = ref(null)
     const difficulty = useRoute().params.difficulty
     const duration = difficulty === 'easy' ? 60 : difficulty === 'medium' ? 30 : 10
@@ -58,7 +58,9 @@ export default defineComponent({
     }
 
     function countdown(firstCall?: boolean): void {
-      strokeDashoffset.value -= 252 / duration
+      setTimeout(() => {
+        strokeDashoffset.value -= 252 / duration
+      })
 
       if (!firstCall) {
         timeRemaining.value -= 1
@@ -69,7 +71,7 @@ export default defineComponent({
 
       if (timeRemaining.value > 0) {
         setTimeout(() => countdown(), 1000)
-      } else ctx.emit('time-up')
+      } else emit('time-up')
     }
 
     onMounted(() => {
