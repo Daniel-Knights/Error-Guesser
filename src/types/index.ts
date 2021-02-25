@@ -18,6 +18,7 @@ export interface ErrorQuestion {
  * @property `name: string`
  * @property `preferredDifficulty: string`
  * @property `overallScore: { line: number text: number total: number }`
+ * @property `answeredQuestionIds: number[]`
  */
 export interface Cookie {
   name: string

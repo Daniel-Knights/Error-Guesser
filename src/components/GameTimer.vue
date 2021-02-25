@@ -40,10 +40,10 @@ import { defineComponent, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 export default defineComponent({
-  name: 'Timer',
+  name: 'GameTimer',
 
   setup(_, { emit }) {
-    const timer = ref(null)
+    const timer = ref<null | Element>(null)
     const difficulty = useRoute().params.difficulty
     const duration = difficulty === 'easy' ? 60 : difficulty === 'medium' ? 30 : 10
     const timeRemaining = ref(duration)
@@ -53,10 +53,9 @@ export default defineComponent({
       if (!timer.value) return
 
       const direction = upOrDown === 'up' ? ['down', 'up'] : ['up', 'down']
-      const typedTimer = (timer.value as unknown) as Element
 
-      typedTimer.classList.remove(`pump-${direction[0]}`)
-      typedTimer.classList.add(`pump-${direction[1]}`)
+      timer.value.classList.remove(`pump-${direction[0]}`)
+      timer.value.classList.add(`pump-${direction[1]}`)
     }
 
     function countdown(firstCall?: boolean): void {

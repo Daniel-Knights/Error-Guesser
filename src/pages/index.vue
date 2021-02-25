@@ -43,9 +43,8 @@
 
 <script lang="ts">
 import { defineComponent, ref, onBeforeUnmount } from 'vue'
-import { useQuasar } from 'quasar'
-import { setUserCookie, state } from '../state'
-import type { Cookie } from '../types'
+import { setCookie } from '../boot/cookies'
+import { state } from '../state'
 import Modal from '../components/Modal.vue'
 
 export default defineComponent({
@@ -54,7 +53,6 @@ export default defineComponent({
   components: { Modal },
 
   setup() {
-    const cookies = useQuasar().cookies
     const difficulty = ref(state.userCookie?.preferredDifficulty || 'easy')
     const showModal = ref(false)
     const name = ref(state.userCookie?.name || '')
@@ -65,11 +63,6 @@ export default defineComponent({
       if (localName !== 'button' || !dataset.difficulty) return
 
       difficulty.value = dataset.difficulty
-    }
-
-    function setCookie(cookie: Cookie): void {
-      cookies.set('eg_user_records', JSON.stringify(cookie), { path: '/' })
-      setUserCookie(cookie)
     }
 
     onBeforeUnmount(() => {

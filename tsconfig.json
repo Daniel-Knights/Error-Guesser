@@ -2,12 +2,11 @@
   "extends": "@quasar/app/tsconfig-preset",
   "compilerOptions": {
     "lib": ["ESNext", "ESNext.AsyncIterable", "DOM"],
-    "experimentalDecorators": true,
     "baseUrl": ".",
     "paths": {
       "~/*": ["./*"],
       "@/*": ["./*"]
     }
   },
-  "exclude": ["node_modules", "dist"]
+  "include": ["**/*"]
 }

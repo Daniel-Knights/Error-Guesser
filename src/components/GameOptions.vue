@@ -31,7 +31,7 @@ import { defineComponent, PropType } from 'vue'
 import type { ErrorQuestion } from '../types'
 
 export default defineComponent({
-  name: 'Options',
+  name: 'GameOptions',
 
   props: {
     index: { type: Number, required: true },
