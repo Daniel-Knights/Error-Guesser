@@ -36,7 +36,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue'
+import { defineComponent, onMounted, onBeforeUnmount, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 export default defineComponent({
@@ -44,10 +44,12 @@ export default defineComponent({
 
   setup(_, { emit }) {
     const timer = ref<null | Element>(null)
-    const difficulty = useRoute().params.difficulty
+    const route = useRoute()
+    const difficulty = route.params.difficulty
     const duration = difficulty === 'easy' ? 60 : difficulty === 'medium' ? 30 : 10
     const timeRemaining = ref(duration)
     const strokeDashoffset = ref(0)
+    let timeout: number
 
     function timerAnimation(upOrDown: string): void {
       if (!timer.value) return
@@ -71,14 +73,17 @@ export default defineComponent({
       }
 
       if (timeRemaining.value > 0) {
-        setTimeout(() => countdown(), 1000)
+        timeout = window.setTimeout(() => countdown(), 1000)
       } else emit('time-up')
     }
 
     onMounted(() => {
-      timerAnimation('down')
+      timerAnimation('up')
+      setTimeout(() => timerAnimation('down'), 250)
       countdown(true)
     })
+
+    onBeforeUnmount(() => clearTimeout(timeout))
 
     return { timer, timeRemaining, strokeDashoffset }
   }

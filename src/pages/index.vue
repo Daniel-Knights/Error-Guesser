@@ -43,6 +43,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, onBeforeUnmount } from 'vue'
+import { useMeta } from 'quasar'
 import { setCookie } from '../boot/cookies'
 import { state } from '../state'
 import Modal from '../components/Modal.vue'
@@ -56,6 +57,8 @@ export default defineComponent({
     const difficulty = ref(state.userCookie?.preferredDifficulty || 'easy')
     const showModal = ref(false)
     const name = ref(state.userCookie?.name || '')
+
+    useMeta({ title: 'Home' })
 
     function selectDifficulty(e: Event): void {
       const { localName, dataset } = e.target as HTMLElement

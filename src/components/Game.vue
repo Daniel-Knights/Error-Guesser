@@ -1,25 +1,23 @@
 <template>
-  <div>
-    <main class="content">
-      <form @submit.prevent>
-        <GameOptions
-          :index="index"
-          :filteredErrors="filteredErrors"
-          :selectedLine="selectedLine"
-          :selectedText="selectedText"
-          @line-select="selectedLine = $event"
-          @text-select="selectedText = $event"
-        />
+  <main class="content">
+    <form @submit.prevent>
+      <GameOptions
+        :index="index"
+        :filteredErrors="filteredErrors"
+        :selectedLine="selectedLine"
+        :selectedText="selectedText"
+        @line-select="selectedLine = $event"
+        @text-select="selectedText = $event"
+      />
 
-        <div>
-          <button @click="skip()">SKIP</button>
-          <button @click="submitGuess()">SUBMIT GUESS</button>
-        </div>
-      </form>
+      <div>
+        <button @click="skip()">SKIP</button>
+        <button @click="submitGuess()">SUBMIT GUESS</button>
+      </div>
+    </form>
 
-      <GameTimer v-if="!resetTimer" @time-up="submitGuess()" />
-    </main>
-  </div>
+    <GameTimer @time-up="submitGuess()" :key="resetTimer" />
+  </main>
 </template>
 
 <script lang="ts">
@@ -48,8 +46,8 @@ export default defineComponent({
     const resetTimer = ref(false)
 
     function submitGuess(): void {
-      const { difficulty, filteredErrors } = props
       const i = index.value
+      const { difficulty, filteredErrors } = props
       const { line, text } = filteredErrors[i].answers
       const { consentCookie, userCookie } = state
       const score = { line: 0, text: 0 }
@@ -81,8 +79,6 @@ export default defineComponent({
     function randomIndex(): void {
       const { filteredErrors } = props
 
-      if (filteredErrors.length === 1) return
-
       for (let i = 0; i < filteredErrors.length; i++) {
         if (filteredErrors[i] !== filteredErrors[index.value]) {
           index.value = i
@@ -92,8 +88,12 @@ export default defineComponent({
     }
 
     function skip(): void {
+      if (props.filteredErrors.length === 1) return
+
       randomIndex()
       setTimeout(Prism.highlightAll)
+
+      resetTimer.value = !resetTimer.value
     }
 
     return { index, selectedLine, selectedText, resetTimer, submitGuess, skip }
