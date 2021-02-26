@@ -9,6 +9,7 @@
         :data-line-number="i"
       >{{ line }}</code>
     </pre>
+    <CheckCross :isCorrect="true" />
   </div>
 
   <div class="error-text">
@@ -24,14 +25,18 @@
       </pre>
     </div>
   </div>
+  <CheckCross :isCorrect="false" />
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import type { ErrorQuestion } from '../types'
+import CheckCross from './CheckCross.vue'
 
 export default defineComponent({
   name: 'GameOptions',
+
+  components: { CheckCross },
 
   props: {
     index: { type: Number, required: true },

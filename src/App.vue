@@ -23,7 +23,7 @@ export default defineComponent({
   setup() {
     const showCookieConsent = ref(state.consentCookie === null)
 
-    useMeta({ titleTemplate: title => `${title} | Error Guesser` })
+    useMeta({ titleTemplate: (title) => `${title} | Error Guesser` })
 
     return { showCookieConsent }
   }
