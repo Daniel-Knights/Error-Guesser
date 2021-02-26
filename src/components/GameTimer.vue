@@ -1,37 +1,23 @@
 <template>
   <div class="timer">
-    <svg width="95mm" height="95mm" viewBox="0 0 95 95" id="svg8">
-      <defs id="defs2">
-        <linearGradient id="linearGradient2917">
-          <stop offset="0" id="stop2915" style="stop-color: #fff" />
-        </linearGradient>
-        <linearGradient
-          gradientTransform="translate(-48.380952,-46.113095)"
-          xlink:href="#linearGradient2917"
-          id="linearGradient2919"
-          x1="56.62962"
-          y1="94.872025"
-          x2="136.8942"
-          y2="94.872025"
-        />
-      </defs>
-      <g transform="translate(-0.88095856,-1.2589302)">
-        <circle
-          cx="48.380959"
-          cy="48.75893"
-          r="40"
-          ref="circle"
-          :style="`
-            stroke-dashoffset: ${strokeDashoffset >= -252 ? strokeDashoffset : -252};
-            transition-duration: ${$q.appVisible ? 1 : 0}s
-          `"
-        />
-      </g>
+    <svg width="95mm" height="95mm" viewBox="0 0 95 95">
+      <circle
+        cx="48"
+        cy="48"
+        r="40"
+        fill-opacity="0"
+        stroke-width="10"
+        stroke-dasharray="262"
+        stroke="#fff"
+        ref="circle"
+        :style="`stroke-dashoffset: ${
+          strokeDashoffset >= -252 ? strokeDashoffset : -252
+        }; transition-duration: ${$q.appVisible ? 1 : 0}s `"
+      />
     </svg>
     <div v-if="timeRemaining" class="countdown pump-up" ref="timer">
       {{ timeRemaining }}s
     </div>
-    <div v-else class="countdown">TIME'S UP</div>
   </div>
 </template>
 
@@ -103,12 +89,7 @@ export default defineComponent({
 svg {
   transform: scale3d(0.5, 0.5, 1);
 }
-
 circle {
-  fill-opacity: 0;
-  stroke: url(#linearGradient2919);
-  stroke-width: 10;
-  stroke-dasharray: 262;
   transition: stroke-dashoffset 1s linear;
 }
 

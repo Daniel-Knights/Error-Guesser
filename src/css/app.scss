@@ -51,11 +51,11 @@ button {
   font-family: var(--font-primary);
   @include form-elements;
 
-  &:hover {
+  &:hover:not(:disabled) {
     background-color: var(--grey);
   }
 
-  &:focus {
+  &:focus:not(:disabled) {
     transition: box-shadow 0.15s;
     @include focus-shadow;
   }

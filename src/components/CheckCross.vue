@@ -1,20 +1,20 @@
 <template>
-  <svg width="40" height="40">
-    <circle cx="16" cy="16" r="16" fill="#fff" />
+  <svg width="64" height="64">
+    <circle cx="32" cy="32" r="32" fill="#fff" />
     <g v-if="isCorrect">
-      <path id="checkPath" d="M9 16l5 5 9-9" fill="none" />
-      <use href="#checkPath" stroke="var(--blue)" stroke-width="2" />
-      <use href="#checkPath" stroke="var(--orange)" stroke-width="2" />
-      <use href="#checkPath" stroke="var(--green)" stroke-width="2.5" />
+      <path id="checkPath" d="M17 32 l10 10 18 -18" fill="none" />
+      <use href="#checkPath" stroke="var(--blue)" stroke-width="4.5" />
+      <use href="#checkPath" stroke="var(--orange)" stroke-width="4.5" />
+      <use href="#checkPath" stroke="var(--green)" stroke-width="5" />
     </g>
     <g v-else>
       <g id="crossPath">
-        <path d="M9.5 10 l13 12" />
-        <path d="M9.5 22 l13 -12" />
+        <path d="M18 21 l27 24" />
+        <path d="M18 45 l27 -24" />
       </g>
-      <use href="#crossPath" stroke="var(--green)" stroke-width="2" />
-      <use href="#crossPath" stroke="var(--blue)" stroke-width="2" />
-      <use href="#crossPath" stroke="var(--red)" stroke-width="2.5" />
+      <use href="#crossPath" stroke="var(--green)" stroke-width="4.5" />
+      <use href="#crossPath" stroke="var(--blue)" stroke-width="4.5" />
+      <use href="#crossPath" stroke="var(--red)" stroke-width="5" />
     </g>
   </svg>
 </template>
@@ -33,7 +33,8 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 svg {
-  animation: svg 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+  position: absolute;
+  animation: svg 1s cubic-bezier(0.075, 0.82, 0.165, 1) forwards;
 
   circle {
     transform: scale(0);
@@ -42,8 +43,8 @@ svg {
   }
 
   use {
-    stroke-dashoffset: 20;
-    stroke-dasharray: 20;
+    stroke-dashoffset: 40;
+    stroke-dasharray: 40;
     animation: path 2s cubic-bezier(0.075, 1, 0.165, 1) forwards;
 
     &:nth-of-type(2) {
@@ -57,10 +58,10 @@ svg {
 
 @keyframes svg {
   0% {
-    transform: translateY(100%);
+    transform: scale3d(0, 0, 0) translateY(100%);
   }
   100% {
-    transform: translateY(0);
+    transform: scale3d(1, 1, 1) translateY(0);
   }
 }
 @keyframes circle {

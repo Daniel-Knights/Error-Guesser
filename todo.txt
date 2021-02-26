@@ -5,3 +5,6 @@ SEO - meta tags
 finish README
 link to contribution guide when all questions answered
 question result screen/modal
+cross-browser compat
+ensure guess submit updates reactively
+overall score widget

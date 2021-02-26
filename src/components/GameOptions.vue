@@ -1,15 +1,20 @@
 <template>
   <div class="line-number">
     <h2>Line Number</h2>
-    <pre class="line-numbers" @click="selectLine($event)">
-      <code
-        v-for="(line, i) in filteredErrors[index].snippet"
-        :class="[selectedLine !== i || 'selected-line', 'language-js']"
-        :key="line"
-        :data-line-number="i"
-      >{{ line }}</code>
-    </pre>
-    <CheckCross :isCorrect="true" />
+    <div class="line-options">
+      <!-- This container prevents 'answered' from affecting Prism -->
+      <div :class="[answered && 'answered', 'code-container']">
+        <pre class="line-numbers" @click="selectLine($event)">
+        <code
+          v-for="(line, i) in filteredErrors[index].snippet"
+          :class="[selectedLine === i && 'selected-line', 'language-js']"
+          :key="line"
+          :data-line-number="i"
+        >{{ line }}</code>
+      </pre>
+      </div>
+      <CheckCross v-if="answered" :isCorrect="!!isCorrect.line" />
+    </div>
   </div>
 
   <div class="error-text">
@@ -18,14 +23,18 @@
       <pre
         v-for="i in [0, 1, 2]"
         :key="i"
-        :class="[selectedText !== i || 'selected-line', 'language-bash']"
+        :class="[
+          selectedText === i && 'selected-line',
+          answered && 'answered',
+          'language-bash'
+        ]"
         @click="$emit('text-select', i)"
       >
         <code>{{ filteredErrors[index].errorText[i] }}</code>
       </pre>
+      <CheckCross v-if="answered" :isCorrect="!!isCorrect.text" />
     </div>
   </div>
-  <CheckCross :isCorrect="false" />
 </template>
 
 <script lang="ts">
@@ -42,7 +51,9 @@ export default defineComponent({
     index: { type: Number, required: true },
     filteredErrors: { type: Object as PropType<ErrorQuestion[]>, required: true },
     selectedLine: { type: Number, required: true },
-    selectedText: { type: Number, required: true }
+    selectedText: { type: Number, required: true },
+    answered: { type: Boolean, required: true },
+    isCorrect: { type: Object as PropType<Record<string, number>>, required: true }
   },
 
   emits: ['line-select', 'text-select'],
@@ -66,6 +77,14 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import '../css/mixins';
 
+.line-options,
+.error-options {
+  @include flex-y(center, center);
+}
+
+.code-container {
+  width: 100%;
+}
 .line-number {
   margin: 20px 0;
 }
@@ -81,6 +100,10 @@ pre {
   .selected-line {
     @include selected-line;
   }
+}
+.answered {
+  pointer-events: none;
+  filter: brightness(0.5);
 }
 
 .error-text {

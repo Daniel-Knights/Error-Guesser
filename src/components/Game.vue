@@ -6,17 +6,24 @@
         :filteredErrors="filteredErrors"
         :selectedLine="selectedLine"
         :selectedText="selectedText"
+        :answered="answered"
+        :isCorrect="score"
         @line-select="selectedLine = $event"
         @text-select="selectedText = $event"
       />
 
-      <div>
-        <button @click="skip()">SKIP</button>
+      <div v-if="!answered">
+        <button :disabled="filteredErrors.length === 1" @click="skipQuestion()">
+          SKIP
+        </button>
         <button @click="submitGuess()">SUBMIT GUESS</button>
+      </div>
+      <div v-else>
+        <button @click="nextQuestion()">NEXT</button>
       </div>
     </form>
 
-    <GameTimer @time-up="submitGuess()" :key="resetTimer" />
+    <GameTimer v-if="!answered" @time-up="submitGuess()" :key="resetTimer" />
   </main>
 </template>
 
@@ -44,16 +51,40 @@ export default defineComponent({
     const selectedLine = ref(0)
     const selectedText = ref(0)
     const resetTimer = ref(false)
+    const answered = ref(false)
+    const score = { line: 0, text: 0 }
+
+    function randomIndex(): void {
+      const { filteredErrors } = props
+
+      for (let i = 0; i < filteredErrors.length; i++) {
+        if (filteredErrors[i] !== filteredErrors[index.value]) {
+          index.value = i
+          return
+        }
+      }
+    }
+
+    function skipQuestion(): void {
+      if (props.filteredErrors.length === 1) return
+
+      randomIndex()
+      setTimeout(Prism.highlightAll)
+
+      answered.value = false
+      resetTimer.value = !resetTimer.value
+    }
 
     function submitGuess(): void {
       const i = index.value
       const { difficulty, filteredErrors } = props
       const { line, text } = filteredErrors[i].answers
       const { consentCookie, userCookie } = state
-      const score = { line: 0, text: 0 }
 
-      if (line === selectedLine.value) score.line = 1
-      if (text === selectedText.value) score.text = 1
+      score.line = line === selectedLine.value ? 1 : 0
+      score.text = text === selectedText.value ? 1 : 0
+
+      answered.value = true
 
       if (consentCookie === false) return
 
@@ -76,27 +107,23 @@ export default defineComponent({
       }
     }
 
-    function randomIndex(): void {
-      const { filteredErrors } = props
-
-      for (let i = 0; i < filteredErrors.length; i++) {
-        if (filteredErrors[i] !== filteredErrors[index.value]) {
-          index.value = i
-          return
-        }
-      }
-    }
-
-    function skip(): void {
-      if (props.filteredErrors.length === 1) return
-
+    function nextQuestion(): void {
+      answered.value = false
       randomIndex()
       setTimeout(Prism.highlightAll)
-
-      resetTimer.value = !resetTimer.value
     }
 
-    return { index, selectedLine, selectedText, resetTimer, submitGuess, skip }
+    return {
+      index,
+      selectedLine,
+      selectedText,
+      resetTimer,
+      answered,
+      score,
+      skipQuestion,
+      submitGuess,
+      nextQuestion
+    }
   }
 })
 </script>
