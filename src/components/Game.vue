@@ -19,7 +19,7 @@
         <button @click="submitGuess()">SUBMIT GUESS</button>
       </div>
       <div v-else>
-        <button @click="nextQuestion()">NEXT</button>
+        <button @click="nextQuestion()" type="button">NEXT</button>
       </div>
     </form>
 
@@ -46,7 +46,7 @@ export default defineComponent({
     filteredErrors: { type: Array as PropType<ErrorQuestion[]>, required: true }
   },
 
-  setup(props) {
+  setup(props, { emit }) {
     const index = ref(0)
     const selectedLine = ref(0)
     const selectedText = ref(0)
@@ -66,8 +66,6 @@ export default defineComponent({
     }
 
     function skipQuestion(): void {
-      if (props.filteredErrors.length === 1) return
-
       randomIndex()
       setTimeout(Prism.highlightAll)
 
@@ -108,8 +106,8 @@ export default defineComponent({
     }
 
     function nextQuestion(): void {
+      emit('next-question')
       answered.value = false
-      randomIndex()
       setTimeout(Prism.highlightAll)
     }
 

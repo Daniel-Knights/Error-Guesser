@@ -5,9 +5,10 @@
     v-else-if="filteredErrors.length"
     :difficulty="difficulty"
     :filteredErrors="filteredErrors"
+    @next-question="filterErrorQuestions(filteredErrors)"
   />
 
-  <GameComplete v-else @reset="reset()" />
+  <GameComplete v-else @reset="resetProgress()" />
 </template>
 
 <script lang="ts">
@@ -37,6 +38,15 @@ export default defineComponent({
 
     useMeta({ title: 'Play' })
 
+    function filterErrorQuestions(errors: ErrorQuestion[]): void {
+      filteredErrors.value = errors.filter((fetchedError) => {
+        if (!state.userCookie) return fetchedError
+        else {
+          return !state.userCookie?.answeredQuestionIds.includes(fetchedError.id)
+        }
+      })
+    }
+
     async function fetchFile(): Promise<void> {
       if (typeof lang !== 'string') return
 
@@ -45,12 +55,7 @@ export default defineComponent({
       }
 
       allErrors.value = fetchedErrors.default
-      filteredErrors.value = fetchedErrors.default.filter((fetchedError) => {
-        if (!state.userCookie) return fetchedError
-        else {
-          return !state.userCookie?.answeredQuestionIds.includes(fetchedError.id)
-        }
-      })
+      filterErrorQuestions(fetchedErrors.default)
 
       setTimeout(Prism.highlightAll)
 
@@ -62,7 +67,7 @@ export default defineComponent({
       console.error(err)
     })
 
-    function reset(): void {
+    function resetProgress(): void {
       if (state.userCookie) {
         state.userCookie.answeredQuestionIds = []
         setCookie(state.userCookie)
@@ -72,7 +77,7 @@ export default defineComponent({
       setTimeout(Prism.highlightAll)
     }
 
-    return { difficulty, loading, filteredErrors, reset }
+    return { difficulty, loading, filteredErrors, filterErrorQuestions, resetProgress }
   }
 })
 </script>
