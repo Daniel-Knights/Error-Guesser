@@ -88,8 +88,13 @@ h2 {
   font-size: 1.5em;
   text-decoration: underline;
 }
+
 li {
   margin: 5px;
+}
+
+a {
+  box-shadow: none;
 }
 
 .difficulty-btns {

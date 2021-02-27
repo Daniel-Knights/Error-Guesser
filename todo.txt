@@ -4,6 +4,4 @@ redo capacitor, electron, ssr with icon-genie
 SEO - meta tags
 finish README
 link to contribution guide when all questions answered
-question result screen/modal
-cross-browser compat
-overall score widget
+cross-browser compat - cookies/a11y/responsive

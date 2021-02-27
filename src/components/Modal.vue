@@ -9,12 +9,34 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, onMounted, onBeforeUnmount } from 'vue'
 
 export default defineComponent({
   name: 'Modal',
 
-  emits: ['click']
+  emits: ['click'],
+
+  setup(_, { emit }) {
+    let keyupTimes = 0
+
+    function closeModalOnEnter(e: KeyboardEvent): void {
+      if (e.key !== 'Enter') return
+
+      keyupTimes += 1
+
+      if (keyupTimes > 1) {
+        keyupTimes = 0
+        emit('click')
+      }
+    }
+
+    onMounted(() => {
+      document.addEventListener('keyup', closeModalOnEnter)
+    })
+    onBeforeUnmount(() => {
+      document.removeEventListener('keyup', closeModalOnEnter)
+    })
+  }
 })
 </script>
 

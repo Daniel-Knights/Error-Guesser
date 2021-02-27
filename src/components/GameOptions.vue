@@ -4,14 +4,16 @@
     <div class="line-options">
       <!-- This container prevents 'answered' from affecting Prism -->
       <div :class="[answered && 'answered', 'code-container']">
-        <pre class="line-numbers" @click="selectLine($event)">
-        <code
-          v-for="(line, i) in filteredErrors[index].snippet"
-          :class="[selectedLine === i && 'selected-line', 'language-js']"
-          :data-line-number="i"
-          :key="line"
-        >{{ line }}</code>
-      </pre>
+        <pre class="line-numbers">
+          <code
+            v-for="(line, i) in filteredErrors[index].snippet"
+            :class="[selectedLine === i && 'selected-line', 'language-js']"
+            :tabindex="answered ? -1 : 0"
+            @click="$emit('line-select', i)"
+            @keyup.enter="$emit('line-select', i)"
+            :key="line"
+          >{{ line }}</code>
+        </pre>
       </div>
       <CheckCross v-if="answered" :isCorrect="!!isCorrect.line" />
     </div>
@@ -28,6 +30,8 @@
           'language-bash'
         ]"
         @click="$emit('text-select', i)"
+        @keyup.enter="$emit('text-select', i)"
+        :tabindex="answered ? -1 : 0"
         :key="i"
       >
         <code>{{ filteredErrors[index].errorText[i] }}</code>
@@ -56,21 +60,7 @@ export default defineComponent({
     isCorrect: { type: Object as PropType<Record<string, number>>, required: true }
   },
 
-  emits: ['line-select', 'text-select'],
-
-  setup(_, { emit }) {
-    function selectLine(e: MouseEvent): void {
-      const target = e.target as HTMLElement
-      if (target.localName !== 'code') return
-
-      const { lineNumber } = target.dataset
-      if (!lineNumber) return
-
-      emit('line-select', +lineNumber)
-    }
-
-    return { selectLine }
-  }
+  emits: ['line-select', 'text-select']
 })
 </script>
 

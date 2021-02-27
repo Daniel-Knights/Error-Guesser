@@ -12,7 +12,7 @@
       </p>
     </div>
 
-    <div class="cookie-btns">
+    <div>
       <button @click="disableCookies()">DISABLE COOKIES</button>
       <button @click="allowCookies()">ALLOW COOKIES</button>
     </div>
@@ -70,9 +70,12 @@ export default defineComponent({
   margin: 1em;
   font: 1em var(--font-secondary);
   text-align: left;
+}
+p {
+  margin: 0.5em 0;
+}
 
-  p {
-    margin: 0.5em 0;
-  }
+button:focus:not(:active) {
+  @include focus-shadow(var(--orange));
 }
 </style>

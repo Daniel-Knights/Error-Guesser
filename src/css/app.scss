@@ -15,12 +15,22 @@
 
 body {
   margin: 0;
-  font: 16px var(--font-primary);
+  font: clamp(0.8rem, 2vw, 1rem) var(--font-primary);
   color: var(--white);
   text-shadow: 0 1px rgba(var(--black-rgb), 0.3);
   background: linear-gradient(135deg, var(--orange), var(--rose));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+body:not(.tab-shadow) {
+  a,
+  i,
+  span,
+  pre,
+  code {
+    box-shadow: none !important;
+  }
 }
 
 h1 {
@@ -33,56 +43,39 @@ p {
   margin: 0 0 1em;
 }
 
-@mixin form-elements {
+button {
+  cursor: pointer;
   margin: 5px;
   padding: 10px 15px;
   letter-spacing: 1.5px;
+  font-family: var(--font-primary);
   background-color: var(--white);
   border: none;
   font-size: 1.5em;
   border-radius: 2px;
   outline: none;
-  transition: box-shadow, background-color;
-  transition-duration: 0.15s;
-}
-
-button {
-  cursor: pointer;
-  font-family: var(--font-primary);
-  @include form-elements;
+  transition: var(--focus-transition), background-color 0.15s;
 
   &:hover:not(:disabled) {
     background-color: var(--grey);
   }
 
   &:focus:not(:disabled) {
-    transition: box-shadow 0.15s;
     @include focus-shadow;
   }
-}
-
-input {
-  font-family: var(--font-secondary);
-  text-align: center;
-  @include form-elements;
-
-  &:focus {
-    @include focus-shadow;
-  }
-}
-
-label {
-  font-size: 1.5em;
 }
 
 a {
+  display: inline-block;
   color: var(--white);
   text-decoration: none;
   outline: none;
+  transition: var(--focus-transition);
 
   &:focus {
+    @include focus-shadow;
+
     button {
-      transition: box-shadow 0.15s;
       @include focus-shadow;
     }
   }

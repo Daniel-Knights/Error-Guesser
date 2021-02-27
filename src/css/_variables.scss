@@ -31,4 +31,6 @@
   --grey-rgb: #{hexToRGB(#bbbbbb)};
   --dark-grey-rgb: #{hexToRGB(#525252)};
   --black-rgb: #{hexToRGB(#272822)};
+
+  --focus-transition: box-shadow 0.15s;
 }

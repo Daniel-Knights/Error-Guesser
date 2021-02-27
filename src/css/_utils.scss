@@ -7,6 +7,12 @@
   pre[class*='language-'] {
     width: 100%;
     overflow: visible;
+    transition: var(--focus-transition);
+
+    &:focus {
+      outline: none;
+      @include focus-shadow;
+    }
   }
 
   pre[class*='language-'].line-numbers {
@@ -17,9 +23,14 @@
   pre[class*='language-'].line-numbers > code {
     cursor: pointer;
     padding-left: 3em;
+    transition: var(--focus-transition);
 
     &:hover {
       @include selected-line;
+    }
+    &:focus {
+      outline: none;
+      @include focus-shadow;
     }
   }
 

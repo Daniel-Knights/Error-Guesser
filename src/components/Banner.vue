@@ -14,7 +14,7 @@ h1 {
 }
 
 p {
-  margin-top: 0;
+  margin: 0 1em 1em;
   font-size: 2em;
   letter-spacing: 1px;
 }
