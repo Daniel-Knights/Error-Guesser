@@ -6,7 +6,8 @@
   "author": "Daniel Knights <danknights95@gmail.com>",
   "private": true,
   "scripts": {
-    "lint": "eslint --ext .js,.ts,.vue ./"
+    "lint": "eslint --ext .js,.ts,.vue ./",
+    "build": "quasar build && rm dist/**/css/vendor.*.css"
   },
   "dependencies": {
     "@quasar/extras": "^1.9.17",
