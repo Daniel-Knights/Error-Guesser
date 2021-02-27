@@ -9,6 +9,7 @@
             v-for="(line, i) in filteredErrors[index].snippet"
             :class="[selectedLine === i && 'selected-line', 'language-js']"
             :tabindex="answered ? -1 : 0"
+            :aria-selected="selectedLine === i"
             @click="$emit('line-select', i)"
             @keyup.enter="$emit('line-select', i)"
             :key="line"
@@ -32,6 +33,7 @@
         @click="$emit('text-select', i)"
         @keyup.enter="$emit('text-select', i)"
         :tabindex="answered ? -1 : 0"
+        :aria-selected="selectedText === i"
         :key="i"
       >
         <code>{{ filteredErrors[index].errorText[i] }}</code>

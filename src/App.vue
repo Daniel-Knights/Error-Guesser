@@ -1,8 +1,8 @@
 <template>
   <div class="container" :class="{ secondary: $route.path !== '/' }">
-    <Banner />
     <ProgressWidget />
     <Navicons @cookie-click="showCookieConsent = true" />
+    <Banner />
     <router-view />
     <CookieConsent v-if="showCookieConsent" @dismiss="showCookieConsent = false" />
   </div>

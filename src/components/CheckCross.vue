@@ -1,5 +1,11 @@
 <template>
-  <svg width="64" height="64">
+  <svg
+    width="64"
+    height="64"
+    :aria-label="isCorrect ? 'Correct' : 'Incorrect'"
+    aria-live="polite"
+    aria-atomic="true"
+  >
     <circle cx="32" cy="32" r="32" fill="#fff" />
     <g v-if="isCorrect">
       <path id="checkPath" d="M17 32 l10 10 18 -18" fill="none" />

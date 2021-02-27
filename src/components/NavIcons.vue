@@ -1,15 +1,18 @@
 <template>
   <div class="navicons">
-    <i
+    <button
       @click="$emit('cookie-click')"
-      @keyup.enter="$emit('cookie-click')"
-      class="fa fa-cookie-bite"
+      class="button-no-style"
       tabindex="0"
-    ></i>
+      aria-label="Open cookie consent widget"
+    >
+      <i class="fa fa-cookie-bite"></i>
+    </button>
     <a
       href="https://github.com/Daniel-Knights/Error-Guesser"
       rel="noopener"
       target="_blank"
+      aria-label="External link to the Error Guesser GitHub repo, opens a new tab"
     >
       <i class="fab fa-github"></i>
     </a>

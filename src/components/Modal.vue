@@ -1,7 +1,7 @@
 <template>
   <teleport to="body">
     <div @click="$emit('click')" class="modal">
-      <div class="modal-content">
+      <div id="modal-content" aria-atomic="true" aria-live="polite">
         <slot />
       </div>
     </div>
@@ -53,7 +53,7 @@ export default defineComponent({
   right: 0;
   background-color: rgba(var(--black-rgb), 0.5);
 }
-.modal-content {
+#modal-content {
   display: grid;
   grid-template-rows: 20% 80%;
   justify-items: center;

@@ -1,6 +1,6 @@
 @import 'variables';
 @import 'mixins';
-@import 'utils';
+@import 'prism';
 
 *,
 *::before,
@@ -28,7 +28,8 @@ body:not(.tab-shadow) {
   i,
   span,
   pre,
-  code {
+  code,
+  .button-no-style {
     box-shadow: none !important;
   }
 }
@@ -43,7 +44,7 @@ p {
   margin: 0 0 1em;
 }
 
-button {
+button:not(.button-no-style) {
   cursor: pointer;
   margin: 5px;
   padding: 10px 15px;
@@ -61,6 +62,19 @@ button {
   }
 
   &:focus:not(:disabled) {
+    @include focus-shadow;
+  }
+}
+.button-no-style {
+  padding: 0;
+  background: transparent;
+  color: var(--white);
+  border: none;
+  border-radius: 50%;
+  outline: none;
+  transition: var(--focus-transition);
+
+  &:focus {
     @include focus-shadow;
   }
 }

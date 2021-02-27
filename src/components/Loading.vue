@@ -1,5 +1,5 @@
 <template>
-  <div class="loading">
+  <div class="loading" aria-label="Loading...">
     <div class="loading-container">
       <svg
         id="svg8"

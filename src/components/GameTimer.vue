@@ -1,6 +1,6 @@
 <template>
   <div class="timer">
-    <svg width="95mm" height="95mm" viewBox="0 0 95 95">
+    <svg width="95mm" height="95mm" viewBox="0 0 95 95" aria-hidden="true">
       <circle
         cx="48"
         cy="48"
@@ -15,7 +15,7 @@
         }; transition-duration: ${$q.appVisible ? 1 : 0}s `"
       />
     </svg>
-    <div v-if="timeRemaining" class="countdown pump-up" ref="timer">
+    <div v-if="timeRemaining" class="countdown pump-up" ref="timer" role="timer">
       {{ timeRemaining }}s
     </div>
   </div>

@@ -7,6 +7,7 @@
         href="https://github.com/Daniel-Knights/Error-Guesser/issues"
         rel="noopener"
         target="_blank"
+        aria-label="External link to the issues page of the Error Guesser GitHub repo, opens a new tab"
         >file a bug report</a
       >, or try again.
     </p>

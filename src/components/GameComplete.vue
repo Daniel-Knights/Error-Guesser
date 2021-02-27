@@ -10,6 +10,7 @@
         href="https://github.com/Daniel-Knights/Error-Guesser"
         rel="noopener"
         target="_blank"
+        aria-label="External link to the Error Guesser GitHub repo, opens a new tab"
         >contribute more questions for others to play.</a
       >
     </p>

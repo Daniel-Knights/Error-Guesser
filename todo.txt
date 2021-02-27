@@ -1,7 +1,6 @@
-a11y
 responsive design
 redo capacitor, electron, ssr with icon-genie
 SEO - meta tags
 finish README
 link to contribution guide when all questions answered
-cross-browser compat - cookies/a11y/responsive
+cross-browser compat - cookies/a11y-tab/responsive

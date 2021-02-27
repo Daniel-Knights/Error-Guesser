@@ -1,5 +1,5 @@
 <template>
-  <div class="cookie-consent">
+  <div id="cookie-consent" aria-atomic="true" aria-live="polite">
     <div class="cookie-text">
       <p>
         This site uses cookies to retain your name (if supplied) and overall score,
@@ -56,7 +56,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import '../css/mixins';
 
-.cookie-consent {
+#cookie-consent {
   display: grid;
   grid-template-columns: 70% 30%;
   align-items: center;

@@ -1,5 +1,5 @@
 <template>
-  <main class="content">
+  <main class="content" aria-live="assertive" aria-atomic="true">
     <form @submit.prevent>
       <GameOptions
         :index="index"

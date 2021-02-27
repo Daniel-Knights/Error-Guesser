@@ -1,6 +1,6 @@
 <template>
   <div class="progress-widget">
-    <dl>
+    <dl aria-atomic="true" aria-live="polite">
       <div class="description-pair">
         <dt>Correct Line Guesses:</dt>
         <dd>{{ state.userCookie?.overallScore.line || 0 }}</dd>
