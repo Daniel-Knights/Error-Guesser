@@ -22,7 +22,7 @@
 <script lang="ts">
 import { useQuasar } from 'quasar'
 import { defineComponent } from 'vue'
-import { state, setConsentCookie, setUserCookie } from '../state'
+import { state, setConsentCookie } from '../state'
 
 export default defineComponent({
   name: 'CookieConsent',
@@ -33,7 +33,6 @@ export default defineComponent({
     function disableCookies(): void {
       if (state.userCookie) {
         cookies.remove('eg_user_records', { path: '/' })
-        setUserCookie(null)
       }
 
       cookies.set('eg_cookie_consent', 'false', { path: '/' })

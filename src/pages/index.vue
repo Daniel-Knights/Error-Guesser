@@ -35,9 +35,6 @@
         HARD
       </button>
     </div>
-    <div v-if="state.consentCookie !== false">
-      <input v-model="name" id="name-input" type="text" placeholder="NAME" />
-    </div>
   </form>
 </template>
 
@@ -56,7 +53,6 @@ export default defineComponent({
   setup() {
     const difficulty = ref(state.userCookie?.preferredDifficulty || 'easy')
     const showModal = ref(false)
-    const name = ref(state.userCookie?.name || '')
 
     useMeta({ title: 'Home' })
 
@@ -71,19 +67,17 @@ export default defineComponent({
     onBeforeUnmount(() => {
       if (!state.userCookie) {
         setCookie({
-          name: name.value,
           preferredDifficulty: difficulty.value,
           overallScore: { line: 0, text: 0, total: 0 },
           answeredQuestionIds: []
         })
       } else {
-        state.userCookie.name = name.value
         state.userCookie.preferredDifficulty = difficulty.value
         setCookie(state.userCookie)
       }
     })
 
-    return { state, difficulty, showModal, name, selectDifficulty }
+    return { state, difficulty, showModal, selectDifficulty }
   }
 })
 </script>

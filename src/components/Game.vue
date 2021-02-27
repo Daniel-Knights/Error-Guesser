@@ -95,7 +95,6 @@ export default defineComponent({
         setCookie(userCookie)
       } else {
         setCookie({
-          name: '',
           preferredDifficulty: difficulty,
           overallScore: { ...score, total: score.line + score.text },
           answeredQuestionIds: [filteredErrors[index.value].id]
