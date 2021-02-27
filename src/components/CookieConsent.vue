@@ -4,7 +4,7 @@
       <p>
         This site uses cookies to retain your name (if supplied) and overall score,
         <b>nothing else.</b> Disabling these cookies won't prevent the game from
-        functioning, but would mean you couldn't track your progress.
+        functioning, <b>but would mean you couldn't track your progress</b>.
       </p>
       <p>
         We're all developers here, you get the idea. Just check the DevTools if you don't

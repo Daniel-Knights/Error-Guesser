@@ -20,7 +20,7 @@ export interface ErrorQuestion {
  * @property `overallScore: { line: number text: number total: number }`
  * @property `answeredQuestionIds: number[]`
  */
-export interface Cookie {
+export interface UserCookie {
   name: string
   preferredDifficulty: string
   overallScore: {

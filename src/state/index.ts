@@ -1,9 +1,9 @@
 import { reactive } from 'vue'
-import type { Cookie } from '../types'
+import type { UserCookie } from '../types'
 
 interface State {
   consentCookie: boolean | null
-  userCookie: Cookie | null
+  userCookie: UserCookie | null
 }
 
 export const state = reactive<State>({
@@ -15,6 +15,6 @@ export function setConsentCookie(cookie: boolean): void {
   state.consentCookie = cookie
 }
 
-export function setUserCookie(cookie: Cookie | null): void {
+export function setUserCookie(cookie: UserCookie | null): void {
   state.userCookie = cookie
 }

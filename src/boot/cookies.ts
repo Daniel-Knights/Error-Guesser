@@ -1,18 +1,19 @@
 import type { BootFileParams } from '@quasar/app'
-import type { Cookie } from '../types'
+import type { UserCookie } from '../types'
 import { Cookies } from 'quasar'
 import { boot } from 'quasar/wrappers'
 import { state, setConsentCookie, setUserCookie } from '../state'
 
 let ssr: BootFileParams<unknown>
 
-export function setCookie(cookie: Cookie): void {
+export function setCookie(cookie: UserCookie): void {
+  setUserCookie(cookie)
+
   if (state.consentCookie === false) return
 
   const cookies = process.env.SERVER ? Cookies.parseSSR(ssr) : Cookies
 
   cookies.set('eg_user_records', JSON.stringify(cookie), { path: '/' })
-  setUserCookie(cookie)
 }
 
 export default boot((ssrContext) => {

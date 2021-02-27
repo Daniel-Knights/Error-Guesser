@@ -77,14 +77,12 @@ export default defineComponent({
       const i = index.value
       const { difficulty, filteredErrors } = props
       const { line, text } = filteredErrors[i].answers
-      const { consentCookie, userCookie } = state
+      const { userCookie } = state
 
       score.line = line === selectedLine.value ? 1 : 0
       score.text = text === selectedText.value ? 1 : 0
 
       answered.value = true
-
-      if (consentCookie === false) return
 
       if (userCookie) {
         const { overallScore, answeredQuestionIds } = userCookie

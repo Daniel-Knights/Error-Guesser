@@ -69,8 +69,6 @@ export default defineComponent({
     }
 
     onBeforeUnmount(() => {
-      if (state.consentCookie === false) return
-
       if (!state.userCookie) {
         setCookie({
           name: name.value,
