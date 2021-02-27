@@ -8,8 +8,8 @@
         <code
           v-for="(line, i) in filteredErrors[index].snippet"
           :class="[selectedLine === i && 'selected-line', 'language-js']"
-          :key="line"
           :data-line-number="i"
+          :key="line"
         >{{ line }}</code>
       </pre>
       </div>
@@ -22,13 +22,13 @@
     <div class="error-options">
       <pre
         v-for="i in [0, 1, 2]"
-        :key="i"
         :class="[
           selectedText === i && 'selected-line',
           answered && 'answered',
           'language-bash'
         ]"
         @click="$emit('text-select', i)"
+        :key="i"
       >
         <code>{{ filteredErrors[index].errorText[i] }}</code>
       </pre>

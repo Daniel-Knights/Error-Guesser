@@ -1,5 +1,6 @@
 <template>
   <div class="container" :class="{ secondary: $route.path !== '/' }">
+    <ProgressWidget />
     <Navicons @cookie-click="showCookieConsent = true" />
     <Banner />
     <router-view />
@@ -14,11 +15,12 @@ import { state } from './state'
 import Navicons from 'components/Navicons.vue'
 import Banner from 'components/Banner.vue'
 import CookieConsent from 'components/CookieConsent.vue'
+import ProgressWidget from './components/ProgressWidget.vue'
 
 export default defineComponent({
   name: 'App',
 
-  components: { Navicons, Banner, CookieConsent },
+  components: { ProgressWidget, Navicons, Banner, CookieConsent },
 
   setup() {
     const showCookieConsent = ref(state.consentCookie === null)
