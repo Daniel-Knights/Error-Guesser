@@ -23,8 +23,6 @@ module.exports = configure(function (ctx) {
 
     boot: ['cookies'],
 
-    extras: ['fontawesome-v5'],
-
     build: {
       vueRouterMode: 'history',
 
